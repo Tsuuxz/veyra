@@ -317,10 +317,13 @@ BEGIN
   INSERT INTO public.profiles (id, name, email)
   VALUES (
     NEW.id,
-    COALESCE(NEW.raw_user_meta_data->>'name', ''),
-    NEW.email
+    COALESCE(NEW.raw_user_meta_data->>'name', 'User'),
+    COALESCE(NEW.email, NEW.raw_user_meta_data->>'email', '')
   );
   RETURN NEW;
+EXCEPTION
+  WHEN OTHERS THEN
+    RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
