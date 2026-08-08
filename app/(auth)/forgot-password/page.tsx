@@ -10,69 +10,48 @@ export default function ForgotPasswordPage() {
   const { forgotPassword } = useAuth();
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
-    if (!email) {
-      setError('Email é obrigatório');
-      return;
-    }
-    
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError('Email inválido');
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
+    if (!email) { setError('Email obrigatório'); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { setError('Email inválido'); return; }
+
+    setSubmitting(true);
     const result = await forgotPassword(email);
-    
-    setIsSubmitting(false);
-    
-    if (result.success) {
-      setIsSuccess(true);
-    } else {
-      setError(result.error || 'Erro ao enviar email de recuperação');
-    }
+    setSubmitting(false);
+    if (result.success) setSuccess(true);
+    else setError(result.error || 'Erro ao enviar email');
   };
-  
-  if (isSuccess) {
+
+  if (success) {
     return (
-      <div className="space-y-8 animate-fade-in text-center">
-        {/* Success Icon */}
-        <div className="w-20 h-20 flex items-center justify-center rounded-full bg-green-500/10 text-green-500 mx-auto">
-          <CheckCircle2 className="w-10 h-10" />
+      <div className="space-y-6 animate-fade-in text-center">
+        <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-green-500/10 text-green-400 mx-auto">
+          <CheckCircle2 className="w-8 h-8" />
         </div>
-        
-        {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-text-primary">
-            Email enviado!
-          </h1>
-          <p className="text-text-secondary max-w-md mx-auto">
-            Enviamos um link de recuperação para <strong className="text-text-primary">{email}</strong>. 
+
+        <div>
+          <h1 className="text-2xl font-bold text-[#F2F2F2] mb-2">Email enviado!</h1>
+          <p className="text-sm text-[#606060] max-w-sm mx-auto">
+            Enviamos um link para{' '}
+            <span className="text-[#F2F2F2] font-medium">{email}</span>.
             Verifique sua caixa de entrada e spam.
           </p>
         </div>
-        
-        {/* Actions */}
-        <div className="space-y-4 pt-4">
-          <Link href="/login">
-            <Button variant="primary" size="lg" className="w-full">
-              Voltar para o login
-            </Button>
+
+        <div className="space-y-3 pt-2">
+          <Link
+            href="/login"
+            className="block w-full py-3 rounded-xl bg-[#F5C842] text-[#0A0A0A] text-sm font-bold text-center hover:bg-[#F7D46A] transition-colors"
+          >
+            Voltar para o login
           </Link>
-          
           <button
-            onClick={() => {
-              setIsSuccess(false);
-              setEmail('');
-            }}
-            className="text-sm text-text-tertiary hover:text-text-secondary transition-colors"
+            onClick={() => { setSuccess(false); setEmail(''); }}
+            className="text-sm text-[#606060] hover:text-[#A0A0A0] transition-colors"
           >
             Reenviar email
           </button>
@@ -80,73 +59,57 @@ export default function ForgotPasswordPage() {
       </div>
     );
   }
-  
+
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Header */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-text-primary">
-          Recuperar senha
-        </h1>
-        <p className="text-text-secondary">
-          Digite seu email para receber um link de recuperação
+    <div className="space-y-7 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold text-[#F2F2F2] mb-1">Recuperar senha</h1>
+        <p className="text-sm text-[#606060]">
+          Informe seu email e enviamos um link de recuperação
         </p>
       </div>
-      
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-            <p className="text-sm text-red-500">{error}</p>
+          <div className="p-3.5 rounded-xl bg-red-500/[0.08] border border-red-500/20 text-sm text-red-400">
+            {error}
           </div>
         )}
-        
+
         <Input
           label="Email"
           type="email"
           placeholder="seu@email.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          error={error}
-          leftIcon={<Mail className="w-5 h-5" />}
-          disabled={isSubmitting}
+          leftIcon={<Mail className="w-4 h-4" />}
+          disabled={submitting}
         />
-        
+
         <Button
           type="submit"
           variant="primary"
           size="lg"
-          className="w-full"
-          isLoading={isSubmitting}
-          rightIcon={!isSubmitting && <ArrowRight className="w-5 h-5" />}
+          className="w-full !bg-[#F5C842] !text-[#0A0A0A] hover:!bg-[#F7D46A] font-bold"
+          isLoading={submitting}
+          rightIcon={!submitting ? <ArrowRight className="w-5 h-5" /> : undefined}
         >
           Enviar link de recuperação
         </Button>
       </form>
-      
-      {/* Links */}
-      <div className="space-y-4 pt-4 border-t border-border-primary">
-        <div className="text-center">
-          <p className="text-text-secondary">
-            Lembrou sua senha?{' '}
-            <Link
-              href="/login"
-              className="text-veyra-cyan hover:text-veyra-cyan-light font-medium transition-colors"
-            >
-              Fazer login
-            </Link>
-          </p>
-        </div>
-        
-        <div className="text-center">
-          <Link
-            href="/"
-            className="text-sm text-text-tertiary hover:text-text-secondary transition-colors"
-          >
-            ← Voltar para o início
-          </Link>
-        </div>
-      </div>
+
+      <p className="text-center text-sm text-[#606060]">
+        Lembrou a senha?{' '}
+        <Link href="/login" className="text-[#F5C842] hover:text-[#F7D46A] font-medium transition-colors">
+          Fazer login
+        </Link>
+      </p>
+
+      <p className="text-center">
+        <Link href="/" className="text-xs text-[#606060] hover:text-[#A0A0A0] transition-colors">
+          ← Voltar ao início
+        </Link>
+      </p>
     </div>
   );
 }

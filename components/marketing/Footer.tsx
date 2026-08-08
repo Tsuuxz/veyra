@@ -2,96 +2,46 @@
 
 import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
-import { Link2, X } from 'lucide-react';
 
-const footerLinks = {
-  product: {
-    title: 'Produto',
-    links: [
-      { label: 'Recursos', href: '#features' },
-      { label: 'Como funciona', href: '#how-it-works' },
-      { label: 'Planos', href: '#pricing' },
-      { label: 'Documentação', href: '/docs' },
-    ],
-  },
-  company: {
-    title: 'Empresa',
-    links: [
-      { label: 'Sobre', href: '#' },
-      { label: 'Blog', href: '#' },
-      { label: 'Carreiras', href: '#' },
-      { label: 'Contato', href: '#' },
-    ],
-  },
-  support: {
-    title: 'Suporte',
-    links: [
-      { label: 'Central de ajuda', href: '#' },
-      { label: 'FAQ', href: '#faq' },
-      { label: 'Status', href: '#' },
-      { label: 'WhatsApp', href: '#' },
-    ],
-  },
-  legal: {
-    title: 'Legal',
-    links: [
-      { label: 'Privacidade', href: '#' },
-      { label: 'Termos de uso', href: '#' },
-      { label: 'Licença', href: '#' },
-    ],
-  },
+const links = {
+  Produto: [
+    { label: 'Recursos', href: '#features' },
+    { label: 'Como funciona', href: '#how-it-works' },
+    { label: 'Planos', href: '#pricing' },
+  ],
+  Suporte: [
+    { label: 'FAQ', href: '#faq' },
+    { label: 'WhatsApp', href: '#' },
+    { label: 'Status', href: '#' },
+  ],
+  Legal: [
+    { label: 'Privacidade', href: '#' },
+    { label: 'Termos de uso', href: '#' },
+  ],
 };
 
-const socialLinks = [
-  { icon: Link2, href: '#', label: 'GitHub' },
-  { icon: X, href: '#', label: 'Twitter' },
-  { icon: Link2, href: '#', label: 'LinkedIn' },
-  { icon: Link2, href: '#', label: 'Email' },
-];
-
 export function Footer() {
-  const currentYear = new Date().getFullYear();
-  
   return (
-    <footer className="bg-bg-secondary border-t border-border-primary">
-      <div className="container mx-auto py-16">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
+    <footer className="bg-[#0A0A0A] border-t border-white/[0.07]">
+      <div className="container mx-auto py-14">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-12">
           {/* Brand */}
           <div className="col-span-2">
             <Logo size="md" className="mb-4" />
-            <p className="text-sm text-text-secondary max-w-xs mb-6">
-              Construa mais. Espere menos. VEYRA adiciona uma camada avançada de produtividade ao seu workflow.
+            <p className="text-sm text-[#606060] max-w-xs leading-relaxed">
+              Extensão para Lovable que turboalimenta seu workflow de desenvolvimento com IA.
             </p>
-            
-            {/* Social Links */}
-            <div className="flex gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  aria-label={social.label}
-                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-bg-elevated text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-all"
-                >
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
           </div>
-          
-          {/* Links */}
-          {Object.entries(footerLinks).map(([key, section]) => (
-            <div key={key}>
-              <h3 className="text-sm font-semibold text-text-primary mb-4">
-                {section.title}
-              </h3>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-text-secondary hover:text-text-primary transition-colors"
-                    >
-                      {link.label}
+
+          {/* Link columns */}
+          {Object.entries(links).map(([title, items]) => (
+            <div key={title}>
+              <h3 className="text-xs font-semibold text-[#F2F2F2] uppercase tracking-wider mb-4">{title}</h3>
+              <ul className="space-y-2.5">
+                {items.map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="text-sm text-[#606060] hover:text-[#A0A0A0] transition-colors">
+                      {item.label}
                     </Link>
                   </li>
                 ))}
@@ -99,26 +49,17 @@ export function Footer() {
             </div>
           ))}
         </div>
-        
-        {/* Bottom */}
-        <div className="pt-8 border-t border-border-primary">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-text-tertiary">
-              © {currentYear} VEYRA. Todos os direitos reservados.
-            </p>
-            
-            <div className="flex gap-6">
-              <Link href="#" className="text-sm text-text-tertiary hover:text-text-primary transition-colors">
-                Termos
-              </Link>
-              <Link href="#" className="text-sm text-text-tertiary hover:text-text-primary transition-colors">
-                Privacidade
-              </Link>
-              <Link href="#" className="text-sm text-text-tertiary hover:text-text-primary transition-colors">
-                Cookies
-              </Link>
-            </div>
-          </div>
+
+        <div className="pt-8 border-t border-white/[0.06] flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-[#606060]">
+            © {new Date().getFullYear()} VEYRA. Todos os direitos reservados.
+          </p>
+          <Link
+            href="/register"
+            className="px-5 py-2 rounded-lg bg-[#F5C842] text-[#0A0A0A] text-sm font-bold hover:bg-[#F7D46A] transition-colors"
+          >
+            Começar agora →
+          </Link>
         </div>
       </div>
     </footer>

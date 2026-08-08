@@ -8,143 +8,100 @@ import { Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export default function ResetPasswordPage() {
   const { resetPassword } = useAuth();
-  const [formData, setFormData] = useState({
-    password: '',
-    confirmPassword: '',
-  });
+  const [form, setForm] = useState({ password: '', confirm: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-    
-    // Validation
-    const newErrors: Record<string, string> = {};
-    
-    if (!formData.password) {
-      newErrors.password = 'Nova senha é obrigatória';
-    } else if (formData.password.length < 6) {
-      newErrors.password = 'Senha deve ter no mínimo 6 caracteres';
-    }
-    
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Confirmação de senha é obrigatória';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'As senhas não coincidem';
-    }
-    
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      return;
-    }
-    
-    setIsSubmitting(true);
-    
-    const result = await resetPassword(formData.password);
-    
-    setIsSubmitting(false);
-    
-    if (result.success) {
-      setIsSuccess(true);
-    } else {
-      setErrors({ form: result.error || 'Erro ao redefinir senha' });
-    }
+    const errs: Record<string, string> = {};
+    if (!form.password || form.password.length < 6) errs.password = 'Mínimo 6 caracteres';
+    if (form.password !== form.confirm) errs.confirm = 'Senhas não coincidem';
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+
+    setSubmitting(true);
+    const result = await resetPassword(form.password);
+    setSubmitting(false);
+    if (result.success) setSuccess(true);
+    else setErrors({ form: result.error || 'Erro ao redefinir senha' });
   };
-  
-  if (isSuccess) {
+
+  if (success) {
     return (
-      <div className="space-y-8 animate-fade-in text-center">
-        {/* Success Icon */}
-        <div className="w-20 h-20 flex items-center justify-center rounded-full bg-green-500/10 text-green-500 mx-auto">
-          <CheckCircle2 className="w-10 h-10" />
+      <div className="space-y-6 animate-fade-in text-center">
+        <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-green-500/10 text-green-400 mx-auto">
+          <CheckCircle2 className="w-8 h-8" />
         </div>
-        
-        {/* Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold text-text-primary">
-            Senha redefinida!
-          </h1>
-          <p className="text-text-secondary max-w-md mx-auto">
-            Sua senha foi alterada com sucesso. Você já pode fazer login com a nova senha.
-          </p>
+        <div>
+          <h1 className="text-2xl font-bold text-[#F2F2F2] mb-2">Senha redefinida!</h1>
+          <p className="text-sm text-[#606060]">Sua senha foi alterada com sucesso.</p>
         </div>
-        
-        {/* Action */}
-        <Link href="/login">
-          <Button variant="primary" size="lg" className="w-full">
-            Fazer login
-          </Button>
+        <Link
+          href="/login"
+          className="block w-full py-3 rounded-xl bg-[#F5C842] text-[#0A0A0A] text-sm font-bold text-center hover:bg-[#F7D46A] transition-colors"
+        >
+          Fazer login
         </Link>
       </div>
     );
   }
-  
+
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Header */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-text-primary">
-          Redefinir senha
-        </h1>
-        <p className="text-text-secondary">
-          Crie uma nova senha para sua conta
-        </p>
+    <div className="space-y-7 animate-fade-in">
+      <div>
+        <h1 className="text-2xl font-bold text-[#F2F2F2] mb-1">Criar nova senha</h1>
+        <p className="text-sm text-[#606060]">Escolha uma senha segura para sua conta</p>
       </div>
-      
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+
+      <form onSubmit={handleSubmit} className="space-y-4">
         {errors.form && (
-          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-            <p className="text-sm text-red-500">{errors.form}</p>
+          <div className="p-3.5 rounded-xl bg-red-500/[0.08] border border-red-500/20 text-sm text-red-400">
+            {errors.form}
           </div>
         )}
-        
+
         <Input
           label="Nova senha"
           type="password"
           placeholder="••••••••"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          value={form.password}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
           error={errors.password}
-          leftIcon={<Lock className="w-5 h-5" />}
-          helperText="Mínimo de 6 caracteres"
-          disabled={isSubmitting}
+          leftIcon={<Lock className="w-4 h-4" />}
+          helperText="Mínimo 6 caracteres"
+          disabled={submitting}
         />
-        
+
         <Input
-          label="Confirmar nova senha"
+          label="Confirmar senha"
           type="password"
           placeholder="••••••••"
-          value={formData.confirmPassword}
-          onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-          error={errors.confirmPassword}
-          leftIcon={<Lock className="w-5 h-5" />}
-          disabled={isSubmitting}
+          value={form.confirm}
+          onChange={(e) => setForm({ ...form, confirm: e.target.value })}
+          error={errors.confirm}
+          leftIcon={<Lock className="w-4 h-4" />}
+          disabled={submitting}
         />
-        
+
         <Button
           type="submit"
           variant="primary"
           size="lg"
-          className="w-full"
-          isLoading={isSubmitting}
-          rightIcon={!isSubmitting && <ArrowRight className="w-5 h-5" />}
+          className="w-full !bg-[#F5C842] !text-[#0A0A0A] hover:!bg-[#F7D46A] font-bold"
+          isLoading={submitting}
+          rightIcon={!submitting ? <ArrowRight className="w-5 h-5" /> : undefined}
         >
           Redefinir senha
         </Button>
       </form>
-      
-      {/* Back to Login */}
-      <div className="text-center pt-4 border-t border-border-primary">
-        <Link
-          href="/login"
-          className="text-sm text-text-tertiary hover:text-text-secondary transition-colors"
-        >
-          ← Voltar para o login
+
+      <p className="text-center">
+        <Link href="/login" className="text-xs text-[#606060] hover:text-[#A0A0A0] transition-colors">
+          ← Voltar ao login
         </Link>
-      </div>
+      </p>
     </div>
   );
 }

@@ -1,70 +1,62 @@
+import Link from 'next/link';
 import { Logo } from '@/components/brand/Logo';
+import { CheckCircle2 } from 'lucide-react';
 
-export default function AuthLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+const perks = [
+  'Prompts ilimitados no Lovable',
+  'Rewrite cirúrgico sem consumir créditos',
+  'Instalação em 60 segundos',
+  'Atualizações automáticas e silenciosas',
+  '7 dias de garantia incondicional',
+];
+
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Branding (Hidden on mobile) */}
-      <div className="hidden lg:flex lg:w-1/2 bg-bg-secondary relative overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-veyra-cyan/5 to-transparent" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-veyra-cyan/10 rounded-full blur-3xl" />
-        
-        <div className="relative z-10 flex flex-col justify-between p-12 w-full">
-          {/* Logo */}
-          <div>
-            <Logo size="lg" />
-          </div>
-          
-          {/* Content */}
-          <div className="space-y-6">
-            <h2 className="text-4xl font-bold text-text-primary leading-tight">
-              Construa mais.
-              <br />
-              Espere menos.
-            </h2>
-            <p className="text-lg text-text-secondary max-w-md">
-              VEYRA adiciona uma camada avançada de produtividade ao seu workflow de desenvolvimento com IA.
-            </p>
-            
-            {/* Features */}
-            <div className="space-y-3 pt-4">
-              {[
-                'Prompts otimizados automaticamente',
-                'Ações rápidas e controle total',
-                'Gerenciamento simplificado de projetos',
-                'Atualizações automáticas',
-              ].map((feature) => (
-                <div key={feature} className="flex items-center gap-3">
-                  <div className="w-6 h-6 flex items-center justify-center rounded-full bg-veyra-cyan/20 text-veyra-cyan">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <span className="text-sm text-text-secondary">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Footer */}
-          <p className="text-sm text-text-tertiary">
-            © 2026 VEYRA. Todos os direitos reservados.
+    <div className="min-h-screen flex bg-[#0A0A0A]">
+      {/* Left panel */}
+      <div className="hidden lg:flex lg:w-[42%] bg-[#0D0D0D] border-r border-white/[0.07] relative overflow-hidden flex-col justify-between p-12">
+        {/* Glow */}
+        <div className="absolute top-1/3 left-0 w-80 h-80 bg-[#F5C842]/[0.06] rounded-full blur-3xl pointer-events-none" />
+
+        <Link href="/">
+          <Logo size="md" />
+        </Link>
+
+        <div className="relative z-10">
+          <h2 className="text-4xl font-bold text-[#F2F2F2] leading-tight mb-4">
+            Construa no Lovable
+            <br />
+            <span className="text-[#F5C842]">em modo turbo</span>
+          </h2>
+          <p className="text-[#606060] mb-8 leading-relaxed">
+            A VEYRA conecta seu Lovable às IAs mais avançadas do mercado —
+            sem queimar nenhum crédito.
           </p>
+
+          <ul className="space-y-3">
+            {perks.map((p) => (
+              <li key={p} className="flex items-center gap-3">
+                <div className="w-5 h-5 flex items-center justify-center rounded-full bg-[#F5C842]/15 text-[#F5C842] flex-shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                </div>
+                <span className="text-sm text-[#A0A0A0]">{p}</span>
+              </li>
+            ))}
+          </ul>
         </div>
+
+        <p className="text-xs text-[#606060] relative z-10">
+          © {new Date().getFullYear()} VEYRA. Todos os direitos reservados.
+        </p>
       </div>
-      
-      {/* Right Side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-bg-primary">
+
+      {/* Right panel */}
+      <div className="flex-1 flex items-center justify-center p-6 md:p-10">
         <div className="w-full max-w-md">
-          {/* Mobile Logo */}
+          {/* Mobile logo */}
           <div className="lg:hidden mb-8 flex justify-center">
-            <Logo size="lg" />
+            <Link href="/"><Logo size="md" /></Link>
           </div>
-          
           {children}
         </div>
       </div>

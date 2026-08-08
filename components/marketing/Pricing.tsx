@@ -1,19 +1,16 @@
 'use client';
 
-import { Card, Button, Badge } from '@/components/ui';
-import { Check } from 'lucide-react';
 import Link from 'next/link';
-
-// Este componente será atualizado para buscar planos do banco de dados
-// Por enquanto, usando dados estáticos para estrutura
+import { Check } from 'lucide-react';
 
 const plans = [
   {
     id: 'trial',
     name: 'Trial',
     price: 5.99,
-    duration: '3 dias',
+    period: '3 dias',
     badge: null,
+    highlight: false,
     features: [
       'Acesso completo por 3 dias',
       '1 dispositivo',
@@ -25,9 +22,9 @@ const plans = [
     id: 'pro',
     name: 'VEYRA Pro',
     price: 49.90,
-    duration: 'mensal',
+    period: 'por mês',
     badge: 'MAIS POPULAR',
-    recommended: true,
+    highlight: true,
     features: [
       'Acesso completo ilimitado',
       '3 dispositivos',
@@ -41,8 +38,9 @@ const plans = [
     id: 'lifetime',
     name: 'Lifetime',
     price: 299.90,
-    duration: 'único',
+    period: 'pagamento único',
     badge: 'MELHOR VALOR',
+    highlight: false,
     features: [
       'Acesso vitalício',
       '3 dispositivos',
@@ -57,99 +55,92 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24">
+    <section id="pricing" className="py-24 bg-[#111111]">
       <div className="container mx-auto">
         <div className="text-center mb-16 animate-slide-up">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-4">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#F2F2F2] mb-4">
             Pague uma vez,
             <br />
             construa sem teto
           </h2>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Escolha o plano ideal para seu ritmo de trabalho. Sem assinaturas escondidas.
+          <p className="text-lg text-[#A0A0A0] max-w-xl mx-auto">
+            Sem assinaturas escondidas. Pagamento único. Cancelamento em 1 clique.
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <Card
+
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          {plans.map((plan, i) => (
+            <div
               key={plan.id}
-              padding="lg"
-              className={cn(
-                'relative animate-scale-in',
-                plan.recommended && 'border-veyra-cyan shadow-xl shadow-veyra-cyan/10'
-              )}
-              style={{ animationDelay: `${index * 100}ms` }}
+              className={`relative p-8 rounded-2xl border transition-all duration-200 animate-scale-in flex flex-col ${
+                plan.highlight
+                  ? 'border-[#F5C842]/50 bg-[#F5C842]/[0.04] shadow-[0_0_60px_rgba(245,200,66,0.08)]'
+                  : 'border-white/[0.08] bg-[#0A0A0A] hover:border-white/[0.14]'
+              }`}
+              style={{ animationDelay: `${i * 100}ms` }}
             >
               {/* Badge */}
               {plan.badge && (
-                <Badge 
-                  variant="outline" 
-                  className="absolute -top-3 left-1/2 -translate-x-1/2 bg-bg-primary border-veyra-cyan text-veyra-cyan"
-                >
+                <div className={`absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-xs font-bold ${
+                  plan.highlight
+                    ? 'bg-[#F5C842] text-[#0A0A0A]'
+                    : 'bg-[#222222] border border-white/[0.1] text-[#A0A0A0]'
+                }`}>
                   {plan.badge}
-                </Badge>
+                </div>
               )}
-              
+
               {/* Header */}
-              <div className="text-center mb-6">
-                <h3 className="text-xl font-semibold text-text-primary mb-2">
-                  {plan.name}
-                </h3>
-                <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-4xl font-bold text-text-primary">
+              <div className="mb-6">
+                <p className="text-sm font-medium text-[#A0A0A0] mb-2">{plan.name}</p>
+                <div className="flex items-end gap-2">
+                  <span className="text-4xl font-bold text-[#F2F2F2]">
                     R$ {plan.price.toFixed(2).replace('.', ',')}
                   </span>
-                  <span className="text-text-secondary">
-                    / {plan.duration}
-                  </span>
                 </div>
+                <p className="text-sm text-[#606060] mt-1">{plan.period}</p>
               </div>
-              
+
               {/* Features */}
-              <ul className="space-y-3 mb-8">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full bg-veyra-cyan/20 text-veyra-cyan">
+              <ul className="space-y-3 mb-8 flex-1">
+                {plan.features.map((feat) => (
+                  <li key={feat} className="flex items-start gap-3">
+                    <div className={`flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-full mt-0.5 ${
+                      plan.highlight ? 'bg-[#F5C842]/20 text-[#F5C842]' : 'bg-white/[0.06] text-[#A0A0A0]'
+                    }`}>
                       <Check className="w-3 h-3" />
                     </div>
-                    <span className="text-sm text-text-secondary">{feature}</span>
+                    <span className="text-sm text-[#A0A0A0]">{feat}</span>
                   </li>
                 ))}
               </ul>
-              
+
               {/* CTA */}
-              <Link href="/register" className="block">
-                <Button
-                  variant={plan.recommended ? 'primary' : 'secondary'}
-                  size="lg"
-                  className="w-full"
-                >
-                  Começar agora
-                </Button>
+              <Link
+                href="/register"
+                className={`block w-full py-3.5 rounded-xl text-center font-bold text-sm transition-all hover:scale-[1.02] active:scale-[0.98] ${
+                  plan.highlight
+                    ? 'bg-[#F5C842] text-[#0A0A0A] hover:bg-[#F7D46A]'
+                    : 'bg-[#191919] border border-white/[0.1] text-[#F2F2F2] hover:border-white/[0.2]'
+                }`}
+              >
+                Começar agora
               </Link>
-            </Card>
+            </div>
           ))}
         </div>
-        
-        <div className="mt-12 text-center animate-slide-up" style={{ animationDelay: '300ms' }}>
-          <div className="inline-flex flex-col items-center gap-4 px-8 py-6 bg-bg-elevated border border-border-primary rounded-2xl">
-            <div className="text-4xl">🛡️</div>
+
+        {/* Guarantee */}
+        <div className="mt-14 flex justify-center animate-slide-up" style={{ animationDelay: '300ms' }}>
+          <div className="flex items-center gap-4 px-8 py-5 rounded-2xl bg-[#0A0A0A] border border-white/[0.07]">
+            <span className="text-4xl">🛡️</span>
             <div>
-              <h4 className="text-lg font-semibold text-text-primary mb-1">
-                7 dias de garantia incondicional
-              </h4>
-              <p className="text-sm text-text-secondary">
-                Use a VEYRA sem risco. Se não gostar, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.
-              </p>
+              <p className="font-semibold text-[#F2F2F2]">7 dias de garantia incondicional</p>
+              <p className="text-sm text-[#A0A0A0]">Não gostou? Devolvemos 100% sem perguntas.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-}
-
-function cn(...classes: (string | boolean | undefined)[]) {
-  return classes.filter(Boolean).join(' ');
 }

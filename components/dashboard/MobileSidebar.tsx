@@ -6,200 +6,92 @@ import { usePathname } from 'next/navigation';
 import { Logo } from '@/components/brand/Logo';
 import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
-import { X } from 'lucide-react';
-import {
-  LayoutDashboard,
-  Key,
-  Download,
-  FolderKanban,
-  History,
-  BookOpen,
-  CreditCard,
-  Settings,
-  HelpCircle,
-  LogOut,
-  Shield,
-} from 'lucide-react';
-import { Badge } from '@/components/ui';
+import { X, LayoutDashboard, Key, Download, FolderKanban, History, BookOpen, CreditCard, Settings, HelpCircle, LogOut, Shield } from 'lucide-react';
 
-const menuItems = [
-  {
-    icon: LayoutDashboard,
-    label: 'Overview',
-    href: '/dashboard',
-  },
-  {
-    icon: Key,
-    label: 'Minha Licença',
-    href: '/dashboard/license',
-  },
-  {
-    icon: Download,
-    label: 'Downloads',
-    href: '/dashboard/downloads',
-  },
-  {
-    icon: FolderKanban,
-    label: 'Projetos',
-    href: '/dashboard/projects',
-  },
-  {
-    icon: History,
-    label: 'Histórico',
-    href: '/dashboard/history',
-  },
-  {
-    icon: BookOpen,
-    label: 'Skills',
-    href: '/dashboard/skills',
-  },
-  {
-    icon: CreditCard,
-    label: 'Faturamento',
-    href: '/dashboard/billing',
-  },
-  {
-    icon: HelpCircle,
-    label: 'Suporte',
-    href: '/dashboard/support',
-  },
-  {
-    icon: Settings,
-    label: 'Configurações',
-    href: '/dashboard/settings',
-  },
+const navItems = [
+  { icon: LayoutDashboard, label: 'Overview',      href: '/dashboard' },
+  { icon: Key,             label: 'Minha Licença', href: '/dashboard/license' },
+  { icon: Download,        label: 'Downloads',     href: '/dashboard/downloads' },
+  { icon: FolderKanban,    label: 'Projetos',      href: '/dashboard/projects' },
+  { icon: History,         label: 'Histórico',     href: '/dashboard/history' },
+  { icon: BookOpen,        label: 'Skills',        href: '/dashboard/skills' },
+  { icon: CreditCard,      label: 'Faturamento',   href: '/dashboard/billing' },
+  { icon: HelpCircle,      label: 'Suporte',       href: '/dashboard/support' },
+  { icon: Settings,        label: 'Configurações', href: '/dashboard/settings' },
 ];
 
-interface MobileSidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+interface Props { isOpen: boolean; onClose: () => void; }
 
-export function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
+export function MobileSidebar({ isOpen, onClose }: Props) {
   const pathname = usePathname();
   const { profile, logout, isAdmin } = useAuth();
-  
-  // Close on pathname change
-  useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
-  
-  // Prevent body scroll when open
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen]);
-  
+
+  useEffect(() => { onClose(); }, [pathname]);
+
   if (!isOpen) return null;
-  
+
   return (
     <>
       {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 animate-fade-in lg:hidden"
-        onClick={onClose}
-      />
-      
+      <div className="fixed inset-0 bg-black/60 z-40 animate-fade-in" onClick={onClose} />
+
       {/* Drawer */}
-      <aside className="fixed left-0 top-0 bottom-0 w-80 bg-bg-secondary border-r border-border-primary z-50 animate-slide-in-left lg:hidden">
-        <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="h-20 flex items-center justify-between px-6 border-b border-border-primary">
-            <Logo size="md" />
-            <button
-              onClick={onClose}
-              className="p-2 rounded-lg hover:bg-bg-elevated transition-colors text-text-tertiary hover:text-text-primary"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-          
-          {/* User Profile */}
-          <div className="p-6 border-b border-border-primary">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-veyra-cyan/20 text-veyra-cyan flex items-center justify-center font-semibold text-lg">
-                {profile?.name?.charAt(0).toUpperCase() || 'U'}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-base font-semibold text-text-primary truncate">
-                  {profile?.name || 'Usuário'}
-                </p>
-                <p className="text-sm text-text-tertiary truncate">
-                  {profile?.email}
-                </p>
-              </div>
+      <div className="fixed left-0 top-0 bottom-0 w-64 bg-[#0D0D0D] border-r border-white/[0.07] z-50 flex flex-col animate-slide-up">
+        {/* Header */}
+        <div className="h-16 flex items-center justify-between px-5 border-b border-white/[0.07]">
+          <Logo size="sm" />
+          <button onClick={onClose} className="p-2 rounded-lg text-[#606060] hover:text-[#F2F2F2] hover:bg-white/[0.04]">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto py-4 px-2.5 space-y-0.5">
+          {navItems.map((item) => {
+            const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'));
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium',
+                  active ? 'bg-[#F5C842]/10 text-[#F5C842]' : 'text-[#606060] hover:text-[#F2F2F2] hover:bg-white/[0.04]'
+                )}
+              >
+                <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="flex-1">{item.label}</span>
+                {active && <span className="w-1.5 h-1.5 rounded-full bg-[#F5C842]" />}
+              </Link>
+            );
+          })}
+
+          {isAdmin && isAdmin() && (
+            <>
+              <div className="my-3 border-t border-white/[0.06]" />
+              <Link href="/admin" className={cn('flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium', pathname.startsWith('/admin') ? 'bg-purple-500/10 text-purple-400' : 'text-[#606060] hover:text-[#F2F2F2] hover:bg-white/[0.04]')}>
+                <Shield className="w-[18px] h-[18px]" />
+                <span>Admin</span>
+              </Link>
+            </>
+          )}
+        </nav>
+
+        {/* User */}
+        <div className="p-2.5 border-t border-white/[0.07]">
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl">
+            <div className="w-8 h-8 rounded-lg bg-[#F5C842]/15 text-[#F5C842] flex items-center justify-center text-sm font-bold">
+              {profile?.name?.charAt(0).toUpperCase() || 'U'}
             </div>
-          </div>
-          
-          {/* Navigation */}
-          <nav className="flex-1 overflow-y-auto py-6 px-4">
-            <div className="space-y-1">
-              {menuItems.map((item) => {
-                const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-                
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200',
-                      isActive
-                        ? 'bg-veyra-cyan/10 text-veyra-cyan'
-                        : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
-                    )}
-                  >
-                    <item.icon className="w-5 h-5 flex-shrink-0" />
-                    <span className="text-sm font-medium">{item.label}</span>
-                    {isActive && (
-                      <div className="ml-auto w-2 h-2 rounded-full bg-veyra-cyan" />
-                    )}
-                  </Link>
-                );
-              })}
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold text-[#F2F2F2] truncate">{profile?.name || 'Usuário'}</p>
+              <p className="text-xs text-[#606060] truncate">{profile?.email}</p>
             </div>
-            
-            {/* Admin Link */}
-            {isAdmin() && (
-              <>
-                <div className="my-6 border-t border-border-primary" />
-                <Link
-                  href="/admin"
-                  className={cn(
-                    'flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200',
-                    pathname.startsWith('/admin')
-                      ? 'bg-purple-500/10 text-purple-500'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated'
-                  )}
-                >
-                  <Shield className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-sm font-medium">Admin</span>
-                  <Badge variant="outline" size="sm" className="ml-auto">
-                    ADMIN
-                  </Badge>
-                </Link>
-              </>
-            )}
-          </nav>
-          
-          {/* Logout */}
-          <div className="p-4 border-t border-border-primary">
-            <button
-              onClick={logout}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-red-500/10 transition-colors text-text-secondary hover:text-status-error"
-            >
-              <LogOut className="w-5 h-5" />
-              <span className="text-sm font-medium">Sair</span>
+            <button onClick={logout} className="p-1.5 rounded-lg text-[#606060] hover:text-red-400 transition-colors">
+              <LogOut className="w-4 h-4" />
             </button>
           </div>
         </div>
-      </aside>
+      </div>
     </>
   );
 }
