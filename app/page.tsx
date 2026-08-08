@@ -1,3 +1,5 @@
+'use client';
+
 import { Hero } from '@/components/marketing/Hero';
 import { Problems } from '@/components/marketing/Problems';
 import { Features } from '@/components/marketing/Features';
