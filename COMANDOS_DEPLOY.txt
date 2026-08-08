@@ -1,0 +1,159 @@
+==============================================
+VEYRA - COMANDOS PARA DEPLOY NA VERCEL
+==============================================
+
+📋 COPIE E COLE ESTES COMANDOS NA ORDEM:
+
+==============================================
+1️⃣ PREPARAR PROJETO LOCALMENTE
+==============================================
+
+cd veyra
+npm install
+npm run build
+
+# ✅ Se o build passar sem erros, prossiga!
+
+==============================================
+2️⃣ SUBIR PARA GITHUB
+==============================================
+
+# Inicializar Git
+git init
+git add .
+git commit -m "Initial commit - VEYRA SaaS Platform"
+
+# Criar branch main
+git branch -M main
+
+# Adicionar repositório remoto (SUBSTITUA SEU-USUARIO)
+git remote add origin https://github.com/SEU-USUARIO/veyra.git
+
+# Push para GitHub
+git push -u origin main
+
+==============================================
+3️⃣ CONFIGURAR SUPABASE
+==============================================
+
+1. Acesse: https://supabase.com/dashboard
+2. Clique em "New Project"
+3. Nome: veyra-production
+4. Senha: [ESCOLHA UMA SENHA FORTE]
+5. Região: South America (São Paulo) ou mais próxima
+6. Clique em "Create new project"
+
+Após criar:
+7. Vá em SQL Editor
+8. Cole todo o conteúdo do arquivo SQL_SETUP.sql
+9. Clique em "Run"
+
+Obter credenciais:
+10. Settings → API
+11. Copie:
+    - Project URL
+    - anon public key
+    - service_role key
+
+==============================================
+4️⃣ DEPLOY NA VERCEL
+==============================================
+
+1. Acesse: https://vercel.com/new
+2. Importe repositório do GitHub: veyra
+3. Configure:
+   - Framework Preset: Next.js (detectado automaticamente)
+   - Root Directory: ./
+   
+4. Adicione Environment Variables:
+
+NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-anon-key-aqui
+SUPABASE_SERVICE_ROLE_KEY=sua-service-role-key-aqui
+NEXT_PUBLIC_APP_URL=https://seu-projeto.vercel.app
+NEXT_PUBLIC_APP_NAME=VEYRA
+
+5. Clique em "Deploy"
+6. Aguarde 2-3 minutos
+
+==============================================
+5️⃣ CONFIGURAR REDIRECT URLs NO SUPABASE
+==============================================
+
+Após deploy, copie a URL do Vercel (ex: veyra-123.vercel.app)
+
+No Supabase:
+1. Authentication → URL Configuration
+2. Site URL: https://veyra-123.vercel.app
+3. Redirect URLs (adicione estas 4):
+   - https://veyra-123.vercel.app/auth/callback
+   - https://veyra-123.vercel.app/reset-password
+   - http://localhost:3000/auth/callback
+   - http://localhost:3000/reset-password
+4. Salve
+
+==============================================
+✅ PRONTO! SEU SITE ESTÁ NO AR!
+==============================================
+
+Acesse: https://veyra-123.vercel.app
+
+==============================================
+🧪 TESTAR O SITE
+==============================================
+
+1. Abra a URL do Vercel
+2. Clique em "Criar conta"
+3. Registre-se com seu email
+4. Verifique email de confirmação
+5. Faça login
+6. Acesse o dashboard
+
+==============================================
+🔄 ATUALIZAR O SITE (FUTURAS MUDANÇAS)
+==============================================
+
+# Fazer alterações no código
+# Depois:
+
+git add .
+git commit -m "Descrição das mudanças"
+git push
+
+# Vercel faz deploy automático! 🚀
+
+==============================================
+📊 MONITORAR O SITE
+==============================================
+
+Vercel Dashboard: https://vercel.com/seu-usuario/veyra
+Supabase Dashboard: https://app.supabase.com/project/seu-projeto
+
+==============================================
+🆘 PROBLEMAS COMUNS
+==============================================
+
+❌ Build falha:
+   npm run build (testar localmente)
+   
+❌ Autenticação não funciona:
+   Verificar redirect URLs no Supabase
+   
+❌ Variáveis não funcionam:
+   Fazer redeploy na Vercel após adicionar variáveis
+   
+❌ Banco não conecta:
+   Verificar URL e keys
+   Executar SQL_SETUP.sql no Supabase
+
+==============================================
+📚 DOCUMENTAÇÃO COMPLETA
+==============================================
+
+- QUICK_START.md (15 minutos)
+- DEPLOY_VERCEL.md (guia completo)
+- README.md (documentação do projeto)
+
+==============================================
+✨ BOA SORTE COM SEU DEPLOY!
+==============================================
