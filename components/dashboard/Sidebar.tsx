@@ -2,194 +2,145 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Logo from '@/components/brand/Logo';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+
+const nav = [
+  {
+    label: 'Principal',
+    items: [
+      { href: '/', label: 'Dashboard', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" strokeWidth="1.5"/></svg> },
+      { href: '/downloads', label: 'Downloads', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M2 12h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> },
+      { href: '/projects', label: 'Projetos', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 5a1 1 0 011-1h3l1.5 2H13a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1V5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg> },
+      { href: '/skills', label: 'Skills', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L13 6l-2.5 2.5.5 3.5L8 10.5 5 12l.5-3.5L3 6l3.5-.5L8 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg> },
+      { href: '/history', label: 'Histórico', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> },
+    ],
+  },
+  {
+    label: 'Conta',
+    items: [
+      { href: '/license', label: 'Licença', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><path d="M5 7h6M5 10h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> },
+      { href: '/billing', label: 'Cobrança', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.5"/><path d="M2 7h12" stroke="currentColor" strokeWidth="1.5"/></svg> },
+      { href: '/settings', label: 'Configurações', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="1.5"/><path d="M8 2v1M8 13v1M2 8h1M13 8h1M3.5 3.5l.7.7M11.8 11.8l.7.7M3.5 12.5l.7-.7M11.8 4.2l.7-.7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> },
+      { href: '/support', label: 'Suporte', icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/><path d="M8 9V8c1.1 0 2-1 2-2s-.9-2-2-2-2 .9-2 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/><circle cx="8" cy="11.5" r=".75" fill="currentColor"/></svg> },
+    ],
+  },
+];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { logout, profile } = useAuth();
+  const router = useRouter();
 
-  const menuItems = [
-    {
-      label: 'Dashboard',
-      href: '/',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      )
-    },
-    {
-      label: 'Projetos',
-      href: '/projects',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Habilidades',
-      href: '/skills',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Histórico',
-      href: '/history',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Downloads',
-      href: '/downloads',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-      )
-    }
-  ];
-
-  const secondaryItems = [
-    {
-      label: 'Licença',
-      href: '/license',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Cobrança',
-      href: '/billing',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Suporte',
-      href: '/support',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Configurações',
-      href: '/settings',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      )
-    }
-  ];
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login');
+  };
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 h-screen border-r border-border-subtle bg-bg-surface sticky top-0">
+    <aside
+      className="dash-sidebar"
+      style={{
+        width: 220,
+        flexShrink: 0,
+        borderRight: '1px solid #1e2626',
+        background: '#050707',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        position: 'sticky',
+        top: 0,
+        overflowY: 'auto',
+      }}
+    >
       {/* Logo */}
-      <div className="h-20 flex items-center px-6 border-b border-border-subtle">
-        <Logo size="md" />
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid #1e2626', height: 56, display: 'flex', alignItems: 'center' }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#14DEDA', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+              <path d="M4 4 L9 14 L14 4" stroke="#050707" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+          <span style={{ fontWeight: 700, fontSize: 15, color: '#f0f4f4', letterSpacing: '-0.01em' }}>VEYRA</span>
+        </Link>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-6 px-4">
-        {/* Main Menu */}
-        <div className="mb-8">
-          <div className="px-3 mb-2">
-            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
-              Principal
-            </p>
+      {/* Nav */}
+      <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        {nav.map(group => (
+          <div key={group.label}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: '#4a5858', letterSpacing: '0.06em', textTransform: 'uppercase', padding: '0 8px', marginBottom: 6 }}>
+              {group.label}
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {group.items.map(item => {
+                const active = pathname === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      padding: '8px 10px',
+                      borderRadius: 8,
+                      fontSize: 14,
+                      fontWeight: active ? 500 : 400,
+                      color: active ? '#f0f4f4' : '#8a9898',
+                      background: active ? '#111414' : 'transparent',
+                      textDecoration: 'none',
+                      transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => { if (!active) (e.currentTarget as HTMLAnchorElement).style.color = '#f0f4f4'; }}
+                    onMouseLeave={e => { if (!active) (e.currentTarget as HTMLAnchorElement).style.color = '#8a9898'; }}
+                  >
+                    <span style={{ color: active ? '#14DEDA' : 'currentColor', display: 'flex' }}>{item.icon}</span>
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
           </div>
-          <div className="space-y-1">
-            {menuItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-cyan-dim text-cyan border border-cyan-border'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
-                  }`}
-                >
-                  <span className={isActive ? 'text-cyan' : ''}>
-                    {item.icon}
-                  </span>
-                  <span className="font-medium text-sm">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Secondary Menu */}
-        <div>
-          <div className="px-3 mb-2">
-            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
-              Conta
-            </p>
-          </div>
-          <div className="space-y-1">
-            {secondaryItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-cyan-dim text-cyan border border-cyan-border'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
-                  }`}
-                >
-                  <span className={isActive ? 'text-cyan' : ''}>
-                    {item.icon}
-                  </span>
-                  <span className="font-medium text-sm">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </div>
+        ))}
       </nav>
 
-      {/* Upgrade Card */}
-      <div className="p-4 border-t border-border-subtle">
-        <div className="p-4 rounded-xl glass border border-cyan-border bg-cyan-dim">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-lg bg-gradient-cyan flex items-center justify-center text-bg-base">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-text-primary">
-                Upgrade para Pro
-              </p>
-              <p className="text-xs text-text-tertiary">
-                Desbloque todos os recursos
-              </p>
-            </div>
+      {/* User footer */}
+      <div style={{ padding: '12px', borderTop: '1px solid #1e2626' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          padding: '10px 10px', borderRadius: 8, marginBottom: 4,
+        }}>
+          <div style={{
+            width: 30, height: 30, borderRadius: 8,
+            background: '#111414', border: '1px solid #1e2626',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 13, fontWeight: 600, color: '#14DEDA', flexShrink: 0,
+          }}>
+            {(profile?.name?.[0] || 'U').toUpperCase()}
           </div>
-          <Link
-            href="/billing"
-            className="block w-full px-4 py-2 rounded-lg bg-gradient-cyan text-bg-base text-sm font-semibold text-center hover:scale-105 transition-transform duration-200"
-          >
-            Fazer Upgrade
-          </Link>
+          <div style={{ overflow: 'hidden', flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: '#f0f4f4', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {profile?.name || 'Usuário'}
+            </div>
+            <div style={{ fontSize: 11, color: '#4a5858' }}>Free plan</div>
+          </div>
         </div>
+        <button
+          onClick={handleLogout}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+            padding: '8px 10px', borderRadius: 8, background: 'none', border: 'none',
+            cursor: 'pointer', fontSize: 14, color: '#4a5858', transition: 'color 0.15s',
+          }}
+          onMouseEnter={e => (e.currentTarget.style.color = '#ef4444')}
+          onMouseLeave={e => (e.currentTarget.style.color = '#4a5858')}
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 14H3a1 1 0 01-1-1V3a1 1 0 011-1h3M10 11l3-3-3-3M13 8H6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          Sair
+        </button>
       </div>
     </aside>
   );

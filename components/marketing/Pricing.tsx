@@ -1,193 +1,140 @@
-'use client';
-
 import Link from 'next/link';
-import Button from '@/components/ui/Button';
+
+const plans = [
+  {
+    name: 'Free',
+    price: 'R$ 0',
+    period: 'para sempre',
+    desc: 'Para explorar e testar',
+    cta: 'Criar conta grátis',
+    href: '/register',
+    highlighted: false,
+    features: [
+      '10 execuções por mês',
+      '1 automação ativa',
+      'Exportação básica',
+      'Suporte por e-mail',
+    ],
+  },
+  {
+    name: 'Pro',
+    price: 'R$ 29',
+    period: '/mês',
+    desc: 'Para uso profissional',
+    cta: 'Começar 14 dias grátis',
+    href: '/register?plan=pro',
+    highlighted: true,
+    features: [
+      'Execuções ilimitadas',
+      'Automações ilimitadas',
+      'Agendamento avançado',
+      'API + Webhooks',
+      'Exportação completa',
+      'Suporte prioritário',
+    ],
+  },
+  {
+    name: 'Enterprise',
+    price: 'Sob consulta',
+    period: '',
+    desc: 'Para times e empresas',
+    cta: 'Falar com vendas',
+    href: '/contact',
+    highlighted: false,
+    features: [
+      'Tudo do Pro',
+      'SSO / SAML',
+      'Gestão de equipe',
+      'SLA garantido',
+      'Suporte dedicado 24/7',
+      'Onboarding personalizado',
+    ],
+  },
+];
 
 export default function Pricing() {
-  const plans = [
-    {
-      name: 'Free',
-      price: '0',
-      period: 'para sempre',
-      description: 'Perfeito para começar e testar',
-      features: [
-        '10 automações por mês',
-        '1 projeto ativo',
-        'Suporte por email',
-        'Acesso à comunidade',
-        'Templates básicos'
-      ],
-      cta: 'Começar Grátis',
-      href: '/register',
-      highlighted: false
-    },
-    {
-      name: 'Pro',
-      price: '29',
-      period: '/mês',
-      description: 'Para profissionais produtivos',
-      features: [
-        'Automações ilimitadas',
-        'Projetos ilimitados',
-        'Suporte prioritário',
-        'Agendamento avançado',
-        'Webhooks e API',
-        'Exportação de dados',
-        'Todos os templates'
-      ],
-      cta: 'Começar Teste Grátis',
-      href: '/register?plan=pro',
-      highlighted: true,
-      badge: 'Mais Popular'
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      period: '',
-      description: 'Para equipes e empresas',
-      features: [
-        'Tudo do Pro +',
-        'SSO e SAML',
-        'Gerenciamento de equipe',
-        'Suporte dedicado 24/7',
-        'SLA garantido',
-        'Onboarding personalizado',
-        'Integração customizada'
-      ],
-      cta: 'Falar com Vendas',
-      href: '/contact',
-      highlighted: false
-    }
-  ];
-
   return (
-    <section id="pricing" className="py-24 lg:py-32 relative overflow-hidden">
-      {/* Background Decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-border-medium to-transparent" />
-      
+    <section id="pricing" style={{ padding: '100px 0', borderTop: '1px solid #1e2626' }}>
       <div className="container">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-dim border border-cyan-border mb-6">
-            <span className="text-sm font-medium text-cyan">Preços</span>
-          </div>
-          <h2 className="mb-4">
-            Planos para todos
-            <span className="block text-gradient">os tamanhos</span>
-          </h2>
-          <p className="text-lg text-text-secondary">
-            Comece grátis, sem cartão de crédito. Upgrade quando precisar.
+
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <span className="badge" style={{ marginBottom: 16 }}>Preços</span>
+          <h2 style={{ color: '#f0f4f4', marginBottom: 16 }}>Simples e transparente</h2>
+          <p style={{ fontSize: 16, lineHeight: 1.7 }}>
+            Comece grátis. Sem cartão de crédito. Cancele quando quiser.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <div
-              key={index}
-              className={`relative p-8 rounded-3xl border transition-all duration-300 ${
-                plan.highlighted
-                  ? 'glass-strong border-cyan shadow-2xl shadow-cyan/20 scale-105 md:scale-110'
-                  : 'glass border-border-subtle hover:border-cyan-border hover:shadow-lg hover:shadow-cyan/10'
-              }`}
-            >
-              {/* Badge */}
-              {plan.badge && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                  <div className="px-4 py-1.5 rounded-full bg-gradient-cyan text-bg-base text-sm font-semibold shadow-lg shadow-cyan/30">
-                    {plan.badge}
-                  </div>
-                </div>
+        {/* Cards */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: 16,
+          alignItems: 'start',
+        }}>
+          {plans.map((p, i) => (
+            <div key={i} style={{
+              border: p.highlighted ? '1px solid rgba(20,222,218,0.4)' : '1px solid #1e2626',
+              borderRadius: 16,
+              padding: '32px 28px',
+              background: p.highlighted ? 'rgba(20,222,218,0.04)' : '#0d0f0f',
+              position: 'relative',
+            }}>
+              {/* Popular badge */}
+              {p.highlighted && (
+                <div style={{
+                  position: 'absolute',
+                  top: -12,
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  background: '#14DEDA',
+                  color: '#050707',
+                  fontSize: 11,
+                  fontWeight: 700,
+                  padding: '4px 14px',
+                  borderRadius: 999,
+                  letterSpacing: '0.05em',
+                  whiteSpace: 'nowrap',
+                }}>MAIS POPULAR</div>
               )}
 
-              {/* Plan Name */}
-              <div className="mb-6">
-                <h3 className="text-2xl font-bold text-text-primary mb-2">
-                  {plan.name}
-                </h3>
-                <p className="text-sm text-text-tertiary">
-                  {plan.description}
-                </p>
+              {/* Plan name & desc */}
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#8a9898', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{p.name}</div>
+                <div style={{ fontSize: 13, color: '#4a5858' }}>{p.desc}</div>
               </div>
 
               {/* Price */}
-              <div className="mb-8">
-                <div className="flex items-baseline gap-1">
-                  {plan.price === 'Custom' ? (
-                    <span className="text-4xl font-bold text-text-primary">
-                      {plan.price}
-                    </span>
-                  ) : (
-                    <>
-                      <span className="text-2xl font-semibold text-text-secondary">R$</span>
-                      <span className="text-5xl font-bold text-text-primary">
-                        {plan.price}
-                      </span>
-                      <span className="text-text-tertiary">{plan.period}</span>
-                    </>
-                  )}
-                </div>
+              <div style={{ marginBottom: 28 }}>
+                <span style={{ fontSize: 36, fontWeight: 700, color: '#f0f4f4', letterSpacing: '-0.03em' }}>{p.price}</span>
+                {p.period && <span style={{ fontSize: 14, color: '#4a5858', marginLeft: 4 }}>{p.period}</span>}
               </div>
 
-              {/* CTA Button */}
-              <Link href={plan.href} className="block mb-8">
-                <Button
-                  variant={plan.highlighted ? 'primary' : 'outline'}
-                  size="lg"
-                  className={`w-full ${
-                    plan.highlighted
-                      ? 'shadow-xl shadow-cyan/30 hover:shadow-2xl hover:shadow-cyan/40'
-                      : ''
-                  }`}
-                >
-                  {plan.cta}
-                </Button>
+              {/* CTA */}
+              <Link href={p.href} className={`btn ${p.highlighted ? 'btn-primary' : 'btn-outline'}`}
+                style={{ width: '100%', justifyContent: 'center', marginBottom: 28 }}>
+                {p.cta}
               </Link>
 
+              {/* Divider */}
+              <div className="divider" style={{ marginBottom: 24 }} />
+
               {/* Features */}
-              <div className="space-y-4">
-                {plan.features.map((feature, idx) => (
-                  <div key={idx} className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-5 h-5 rounded-full bg-cyan-dim border border-cyan-border flex items-center justify-center mt-0.5">
-                      <svg
-                        className="w-3 h-3 text-cyan"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={3}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm text-text-secondary">
-                      {feature}
-                    </span>
-                  </div>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {p.features.map((f, j) => (
+                  <li key={j} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: '#8a9898' }}>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M2.5 7l3 3 6-6" stroke="#14DEDA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    {f}
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           ))}
         </div>
 
-        {/* FAQ Link */}
-        <div className="text-center mt-16">
-          <p className="text-text-tertiary mb-4">
-            Dúvidas sobre os planos?
-          </p>
-          <a
-            href="#faq"
-            className="inline-flex items-center gap-2 text-cyan hover:text-cyan-light transition-colors duration-200 font-medium"
-          >
-            Ver Perguntas Frequentes
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </a>
-        </div>
       </div>
     </section>
   );

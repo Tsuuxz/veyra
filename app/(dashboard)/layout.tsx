@@ -1,63 +1,92 @@
 'use client';
 
 import { useState } from 'react';
-import Sidebar from '@/components/dashboard/Sidebar';
-import Topbar from '@/components/dashboard/Topbar';
-import MobileSidebar from '@/components/dashboard/MobileSidebar';
 import { AuthGuard } from '@/components/auth/AuthGuard';
-import { Menu, LogOut } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useUIStore } from '@/lib/stores/uiStore';
-import Logo from '@/components/brand/Logo';
-import { useAuth } from '@/hooks/useAuth';
+import Sidebar from '@/components/dashboard/Sidebar';
+import MobileSidebar from '@/components/dashboard/MobileSidebar';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { sidebarCollapsed } = useUIStore();
-  const { logout } = useAuth();
 
   return (
     <AuthGuard requireAuth>
-      <div className="min-h-screen bg-[#0A0A0A]">
-        {/* Desktop sidebar */}
-        <div className="hidden lg:block">
-          <Sidebar />
-        </div>
+      <div style={{ display: 'flex', minHeight: '100vh', background: '#050707' }}>
+
+        {/* Sidebar desktop */}
+        <Sidebar />
 
         {/* Mobile sidebar */}
         <MobileSidebar isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
 
-        {/* Desktop topbar */}
-        <div className="hidden lg:block">
-          <Topbar />
-        </div>
+        {/* Main area */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
 
-        {/* Mobile topbar */}
-        <div className="lg:hidden fixed top-0 inset-x-0 h-16 bg-[#0A0A0A]/90 backdrop-blur-xl border-b border-white/[0.07] z-30 flex items-center justify-between px-4">
-          <button
-            onClick={() => setMobileOpen(true)}
-            className="p-2 rounded-xl text-[#606060] hover:text-[#F2F2F2] hover:bg-white/[0.04] transition-colors"
-          >
-            <Menu className="w-5 h-5" />
-          </button>
-          <Logo size="sm" />
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-green-500/10 border border-green-500/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-xs font-semibold text-green-400">Ativo</span>
-          </div>
-        </div>
+          {/* Topbar */}
+          <header style={{
+            height: 56,
+            borderBottom: '1px solid #1e2626',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 24px',
+            position: 'sticky',
+            top: 0,
+            background: '#050707',
+            zIndex: 10,
+            flexShrink: 0,
+          }}>
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              style={{
+                display: 'none',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#8a9898',
+                padding: 4,
+              }}
+              className="dash-hamburger"
+              aria-label="Menu"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <line x1="3" y1="6" x2="17" y2="6"/>
+                <line x1="3" y1="10" x2="17" y2="10"/>
+                <line x1="3" y1="14" x2="17" y2="14"/>
+              </svg>
+            </button>
 
-        {/* Main */}
-        <main className={cn(
-          'min-h-screen transition-all duration-300 pt-16',
-          'lg:pt-16',
-          sidebarCollapsed ? 'lg:pl-[68px]' : 'lg:pl-60'
-        )}>
-          <div className="p-6 md:p-8 max-w-7xl mx-auto">
+            {/* Page title placeholder — children override via context if needed */}
+            <div />
+
+            {/* Right side */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                fontSize: 12, fontWeight: 600, color: '#22c55e',
+                background: 'rgba(34,197,94,0.08)',
+                border: '1px solid rgba(34,197,94,0.2)',
+                borderRadius: 999, padding: '4px 10px',
+              }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+                Ativo
+              </span>
+            </div>
+          </header>
+
+          {/* Page content */}
+          <main style={{ flex: 1, padding: '32px 32px', maxWidth: 1100, width: '100%' }}>
             {children}
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .dash-hamburger { display: flex !important; }
+          .dash-sidebar { display: none !important; }
+        }
+      `}</style>
     </AuthGuard>
   );
 }

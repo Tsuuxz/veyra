@@ -2,186 +2,92 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import Logo from '@/components/brand/Logo';
 
-interface MobileSidebarProps {
+const navItems = [
+  { href: '/', label: 'Dashboard' },
+  { href: '/downloads', label: 'Downloads' },
+  { href: '/projects', label: 'Projetos' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/history', label: 'Histórico' },
+  { href: '/license', label: 'Licença' },
+  { href: '/billing', label: 'Cobrança' },
+  { href: '/settings', label: 'Configurações' },
+  { href: '/support', label: 'Suporte' },
+];
+
+interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function MobileSidebar({ isOpen, onClose }: MobileSidebarProps) {
+export default function MobileSidebar({ isOpen, onClose }: Props) {
   const pathname = usePathname();
 
-  const menuItems = [
-    {
-      label: 'Dashboard',
-      href: '/',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-        </svg>
-      )
-    },
-    {
-      label: 'Projetos',
-      href: '/projects',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Habilidades',
-      href: '/skills',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Histórico',
-      href: '/history',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Downloads',
-      href: '/downloads',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-        </svg>
-      )
-    },
-    {
-      label: 'Licença',
-      href: '/license',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Cobrança',
-      href: '/billing',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Suporte',
-      href: '/support',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-        </svg>
-      )
-    },
-    {
-      label: 'Configurações',
-      href: '/settings',
-      icon: (
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      )
-    }
-  ];
+  if (!isOpen) return null;
 
   return (
-    <>
+    <div style={{ position: 'fixed', inset: 0, zIndex: 200, display: 'flex' }}>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-bg-base/95 backdrop-blur-xl z-50 lg:hidden transition-all duration-300 ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
         onClick={onClose}
+        style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
       />
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed top-0 left-0 bottom-0 w-80 bg-bg-surface border-r border-border-subtle z-50 lg:hidden transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
+      {/* Drawer */}
+      <aside style={{
+        position: 'relative',
+        width: 260,
+        background: '#050707',
+        borderRight: '1px solid #1e2626',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        overflowY: 'auto',
+      }}>
         {/* Header */}
-        <div className="h-20 flex items-center justify-between px-6 border-b border-border-subtle">
-          <Logo size="md" />
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg hover:bg-white/5 transition-colors"
-            aria-label="Close menu"
-          >
-            <svg className="w-6 h-6 text-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        <div style={{ padding: '0 16px', height: 56, display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #1e2626' }}>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }} onClick={onClose}>
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#14DEDA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+                <path d="M4 4 L9 14 L14 4" stroke="#050707" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <span style={{ fontWeight: 700, fontSize: 15, color: '#f0f4f4' }}>VEYRA</span>
+          </Link>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4a5858', padding: 4 }}>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="4" y1="4" x2="14" y2="14"/><line x1="14" y1="4" x2="4" y2="14"/>
             </svg>
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="overflow-y-auto h-[calc(100vh-5rem-120px)] py-6 px-4">
-          <div className="space-y-1">
-            {menuItems.map((item, index) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={onClose}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 animate-slide-down ${
-                    isActive
-                      ? 'bg-cyan-dim text-cyan border border-cyan-border'
-                      : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
-                  }`}
-                  style={{ animationDelay: `${index * 30}ms` }}
-                >
-                  <span className={isActive ? 'text-cyan' : ''}>
-                    {item.icon}
-                  </span>
-                  <span className="font-medium">{item.label}</span>
-                </Link>
-              );
-            })}
-          </div>
+        {/* Links */}
+        <nav style={{ flex: 1, padding: '12px' }}>
+          {navItems.map(item => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onClose}
+                style={{
+                  display: 'block',
+                  padding: '10px 12px',
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontWeight: active ? 500 : 400,
+                  color: active ? '#f0f4f4' : '#8a9898',
+                  background: active ? '#111414' : 'transparent',
+                  textDecoration: 'none',
+                  marginBottom: 2,
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
-
-        {/* Upgrade Card */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border-subtle bg-bg-surface">
-          <div className="p-4 rounded-xl glass border border-cyan-border bg-cyan-dim">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-cyan flex items-center justify-center text-bg-base">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-text-primary">
-                  Upgrade para Pro
-                </p>
-                <p className="text-xs text-text-tertiary">
-                  Desbloque todos os recursos
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/billing"
-              onClick={onClose}
-              className="block w-full px-4 py-2 rounded-lg bg-gradient-cyan text-bg-base text-sm font-semibold text-center hover:scale-105 transition-transform duration-200"
-            >
-              Fazer Upgrade
-            </Link>
-          </div>
-        </div>
       </aside>
-    </>
+    </div>
   );
 }

@@ -2,124 +2,64 @@
 
 import { useState } from 'react';
 
-export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+const items = [
+  { q: 'O que é VEYRA?', a: 'VEYRA é uma extensão de navegador com IA que automatiza tarefas repetitivas na web — extração de dados, preenchimento de formulários, navegação automatizada — sem precisar escrever código.' },
+  { q: 'Preciso saber programar?', a: 'Não. O editor visual permite criar automações complexas com cliques e arraste. Para usuários avançados, também oferecemos API e scripts customizados.' },
+  { q: 'Meus dados estão seguros?', a: 'Sim. Todo o processamento acontece localmente no seu navegador. Nenhum dado sensível é enviado para nossos servidores. Somos compatíveis com LGPD e GDPR.' },
+  { q: 'VEYRA funciona em qual navegador?', a: 'Chrome e Edge já estão disponíveis. Firefox e Safari estão em desenvolvimento e serão lançados em breve.' },
+  { q: 'Posso cancelar quando quiser?', a: 'Sim. Cancele a qualquer momento sem multa. O acesso continua até o fim do período pago.' },
+  { q: 'Tem período de teste?', a: 'O plano Free é gratuito para sempre. O Pro tem 14 dias de teste sem necessidade de cartão de crédito.' },
+];
 
-  const faqs = [
-    {
-      question: 'O que é VEYRA?',
-      answer: 'VEYRA é uma extensão de navegador alimentada por IA que automatiza tarefas repetitivas na web. Extraia dados, preencha formulários, agende ações e muito mais sem escrever código.'
-    },
-    {
-      question: 'Preciso saber programar?',
-      answer: 'Não! VEYRA foi projetado para ser usado por qualquer pessoa. Nosso editor visual permite criar automações complexas com cliques. Para usuários avançados, também oferecemos API e webhooks.'
-    },
-    {
-      question: 'Meus dados estão seguros?',
-      answer: 'Sim. Seus dados são processados localmente no navegador e criptografados de ponta a ponta. Nunca armazenamos credenciais ou dados sensíveis. Somos compatíveis com LGPD e GDPR.'
-    },
-    {
-      question: 'Posso cancelar a qualquer momento?',
-      answer: 'Sim, você pode cancelar seu plano a qualquer momento sem taxas. Seu acesso continuará até o fim do período pago. Não fazemos cobranças automáticas sem aviso prévio.'
-    },
-    {
-      question: 'Qual a diferença entre os planos?',
-      answer: 'O plano Free é perfeito para testar com 10 automações/mês. O Pro oferece automações ilimitadas, agendamento e API. O Enterprise adiciona suporte dedicado, SSO e gerenciamento de equipe.'
-    },
-    {
-      question: 'Tem período de teste?',
-      answer: 'Sim! O plano Pro tem 14 dias de teste grátis, sem cartão de crédito. Você pode testar todos os recursos premium antes de decidir.'
-    },
-    {
-      question: 'VEYRA funciona em qualquer site?',
-      answer: 'VEYRA funciona na maioria dos sites públicos. Alguns sites com proteções anti-bot avançadas podem ter limitações. Entre em contato se tiver dúvidas sobre um site específico.'
-    },
-    {
-      question: 'Como funciona o suporte?',
-      answer: 'Free: suporte por email em até 48h. Pro: suporte prioritário em até 12h. Enterprise: suporte dedicado 24/7 com SLA garantido e canal direto no Slack.'
-    }
-  ];
+export default function FAQ() {
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-24 lg:py-32 relative overflow-hidden bg-bg-surface">
+    <section id="faq" style={{ padding: '100px 0', borderTop: '1px solid #1e2626' }}>
       <div className="container">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-dim border border-cyan-border mb-6">
-            <span className="text-sm font-medium text-cyan">FAQ</span>
-          </div>
-          <h2 className="mb-4">
-            Perguntas
-            <span className="block text-gradient">Frequentes</span>
-          </h2>
-          <p className="text-lg text-text-secondary">
-            Tudo o que você precisa saber sobre VEYRA
-          </p>
+
+        {/* Header */}
+        <div style={{ maxWidth: 560, marginBottom: 56 }}>
+          <span className="badge" style={{ marginBottom: 16 }}>FAQ</span>
+          <h2 style={{ color: '#f0f4f4' }}>Dúvidas frequentes</h2>
         </div>
 
-        {/* FAQ Accordion */}
-        <div className="max-w-3xl mx-auto space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="glass border border-border-subtle hover:border-cyan-border rounded-2xl overflow-hidden transition-all duration-300"
-            >
+        {/* Items */}
+        <div style={{ maxWidth: 680 }}>
+          {items.map((item, i) => (
+            <div key={i} style={{ borderBottom: '1px solid #1e2626' }}>
               <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-5 flex items-center justify-between gap-4 text-left hover:bg-white/[0.02] transition-colors duration-200"
+                onClick={() => setOpen(open === i ? null : i)}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '20px 0',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  gap: 16,
+                }}
               >
-                <span className="text-lg font-semibold text-text-primary">
-                  {faq.question}
-                </span>
-                <div
-                  className={`flex-shrink-0 w-8 h-8 rounded-lg bg-cyan-dim border border-cyan-border flex items-center justify-center text-cyan transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
-                  }`}
+                <span style={{ fontSize: 15, fontWeight: 500, color: '#f0f4f4' }}>{item.q}</span>
+                <svg
+                  width="16" height="16" viewBox="0 0 16 16" fill="none"
+                  style={{ flexShrink: 0, transform: open === i ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}
                 >
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
-                    />
-                  </svg>
-                </div>
+                  <path d="M3 6l5 5 5-5" stroke="#4a5858" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
-
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
-                }`}
-              >
-                <div className="px-6 pb-5 text-text-secondary leading-relaxed">
-                  {faq.answer}
-                </div>
-              </div>
+              {open === i && (
+                <p style={{ fontSize: 14, color: '#8a9898', lineHeight: 1.7, paddingBottom: 20, marginTop: -4 }}>
+                  {item.a}
+                </p>
+              )}
             </div>
           ))}
         </div>
 
-        {/* Contact CTA */}
-        <div className="text-center mt-12">
-          <p className="text-text-tertiary mb-4">
-            Ainda tem dúvidas?
-          </p>
-          <a
-            href="/support"
-            className="inline-flex items-center gap-2 text-cyan hover:text-cyan-light transition-colors duration-200 font-medium"
-          >
-            Entre em contato
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
       </div>
     </section>
   );
