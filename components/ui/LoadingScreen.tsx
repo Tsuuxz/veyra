@@ -1,6 +1,6 @@
 'use client';
 
-import { Logo } from '@/components/brand/Logo';
+import Logo from '@/components/brand/Logo';
 
 export function LoadingScreen() {
   return (

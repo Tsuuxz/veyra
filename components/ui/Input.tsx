@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { InputProps } from '@/types';
 import { forwardRef } from 'react';
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, helperText, leftIcon, rightIcon, className, ...props }, ref) => {
     return (
       <div className="w-full">
@@ -57,3 +57,5 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 );
 
 Input.displayName = 'Input';
+
+export default Input;

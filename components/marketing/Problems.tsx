@@ -1,55 +1,109 @@
 'use client';
 
-import { Clock, Repeat, FileText, AlertCircle, Database, Zap } from 'lucide-react';
+export default function Problems() {
+  const problems = [
+    {
+      problem: 'Perder horas copiando dados manualmente',
+      solution: 'Extraia automaticamente em segundos'
+    },
+    {
+      problem: 'Tarefas repetitivas todos os dias',
+      solution: 'Automatize uma vez, execute infinitamente'
+    },
+    {
+      problem: 'Erros humanos em processos manuais',
+      solution: 'Precisão de 99.9% com IA'
+    },
+    {
+      problem: 'Ferramentas complicadas e caras',
+      solution: 'Interface intuitiva, preço justo'
+    }
+  ];
 
-const problems = [
-  { icon: Clock, title: 'Workflow interrompido', description: 'Seu fluxo para no meio de uma ideia por limitações da ferramenta.' },
-  { icon: Repeat, title: 'Tarefas repetitivas', description: 'Você repete os mesmos comandos manualmente dezenas de vezes por dia.' },
-  { icon: FileText, title: 'Prompts mal estruturados', description: 'Perde tempo reescrevendo prompts que poderiam ser otimizados automaticamente.' },
-  { icon: AlertCircle, title: 'Excesso de ações manuais', description: 'Copiar, colar, navegar entre abas, gerenciar arquivos sem parar.' },
-  { icon: Database, title: 'Contexto perdido', description: 'Dificuldade em transportar contexto entre projetos e sessões.' },
-  { icon: Zap, title: 'Créditos queimados', description: 'Minutos acumulados em micro-tarefas que consomem seus créditos à toa.' },
-];
-
-export function Problems() {
   return (
-    <section className="py-24 bg-[#111111]">
-      <div className="container mx-auto">
-        <div className="text-center mb-16 animate-slide-up">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#F2F2F2] mb-4">
-            Seu fluxo não deveria parar
-            <br className="hidden md:block" />
-            no meio de uma ideia
-          </h2>
-          <p className="text-lg text-[#A0A0A0] max-w-2xl mx-auto">
-            Problemas reais que travam devs todo dia. A VEYRA elimina cada um deles.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {problems.map((p, i) => (
-            <div
-              key={p.title}
-              className="p-6 rounded-2xl bg-[#0A0A0A] border border-white/[0.06] hover:border-white/[0.12] transition-all animate-slide-up group"
-              style={{ animationDelay: `${i * 80}ms` }}
-            >
-              <div className="w-11 h-11 flex items-center justify-center rounded-xl bg-red-500/10 text-red-400 mb-4 group-hover:scale-110 transition-transform">
-                <p.icon className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-semibold text-[#F2F2F2] mb-2">{p.title}</h3>
-              <p className="text-sm text-[#A0A0A0] leading-relaxed">{p.description}</p>
+    <section className="py-24 lg:py-32 relative">
+      <div className="container">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Left Content */}
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-dim border border-cyan-border mb-6">
+              <span className="text-sm font-medium text-cyan">Problemas Resolvidos</span>
             </div>
-          ))}
-        </div>
+            
+            <h2 className="mb-6">
+              Chega de perder tempo com
+              <span className="block text-gradient">tarefas repetitivas</span>
+            </h2>
+            
+            <p className="text-lg text-text-secondary mb-8">
+              Desenvolvemos VEYRA para resolver os problemas reais que profissionais enfrentam diariamente.
+            </p>
 
-        {/* Arrow */}
-        <div className="mt-14 flex justify-center animate-slide-up" style={{ animationDelay: '500ms' }}>
-          <div className="flex items-center gap-4 px-6 py-3 rounded-full border border-white/[0.08] bg-[#0A0A0A] text-sm">
-            <span className="text-[#606060]">Todos esses problemas</span>
-            <svg className="w-5 h-5 text-[#F5C842]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-            <span className="font-semibold text-[#F5C842]">Resolvidos pela VEYRA</span>
+            {/* Problems List */}
+            <div className="space-y-4">
+              {problems.map((item, index) => (
+                <div
+                  key={index}
+                  className="group p-6 rounded-xl glass border border-border-subtle hover:border-cyan-border transition-all duration-300"
+                >
+                  <div className="flex items-start gap-4">
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-cyan-dim border border-cyan-border flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+
+                    {/* Content */}
+                    <div className="flex-1">
+                      <div className="text-text-tertiary line-through text-sm mb-1">
+                        {item.problem}
+                      </div>
+                      <div className="text-text-primary font-medium">
+                        {item.solution}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Visual */}
+          <div className="relative">
+            <div className="relative aspect-square max-w-lg mx-auto">
+              {/* Central Glow */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-64 h-64 rounded-full bg-cyan opacity-20 blur-3xl animate-pulse" />
+              </div>
+
+              {/* Floating Cards */}
+              <div className="absolute inset-0">
+                {[
+                  { delay: '0s', position: 'top-0 left-0' },
+                  { delay: '0.5s', position: 'top-0 right-0' },
+                  { delay: '1s', position: 'bottom-0 left-0' },
+                  { delay: '1.5s', position: 'bottom-0 right-0' }
+                ].map((card, index) => (
+                  <div
+                    key={index}
+                    className={`absolute ${card.position} w-32 h-32 lg:w-40 lg:h-40 rounded-2xl glass-strong border border-cyan-border p-4 animate-pulse`}
+                    style={{ animationDelay: card.delay, animationDuration: '3s' }}
+                  >
+                    <div className="w-full h-full rounded-lg bg-gradient-to-br from-cyan-dim to-transparent opacity-50" />
+                  </div>
+                ))}
+              </div>
+
+              {/* Center Icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-2xl bg-gradient-cyan shadow-2xl shadow-cyan/30 flex items-center justify-center">
+                  <svg className="w-10 h-10 text-bg-base" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

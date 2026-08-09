@@ -2,135 +2,195 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Logo } from '@/components/brand/Logo';
-import { useUIStore } from '@/lib/stores/uiStore';
-import { useAuth } from '@/hooks/useAuth';
-import { cn } from '@/lib/utils';
-import {
-  LayoutDashboard, Key, Download, FolderKanban,
-  History, BookOpen, CreditCard, Settings,
-  HelpCircle, ChevronLeft, LogOut, Shield,
-} from 'lucide-react';
+import Logo from '@/components/brand/Logo';
 
-const navItems = [
-  { icon: LayoutDashboard, label: 'Overview',      href: '/dashboard' },
-  { icon: Key,             label: 'Minha Licença', href: '/dashboard/license' },
-  { icon: Download,        label: 'Downloads',     href: '/dashboard/downloads' },
-  { icon: FolderKanban,    label: 'Projetos',      href: '/dashboard/projects' },
-  { icon: History,         label: 'Histórico',     href: '/dashboard/history' },
-  { icon: BookOpen,        label: 'Skills',        href: '/dashboard/skills' },
-  { icon: CreditCard,      label: 'Faturamento',   href: '/dashboard/billing' },
-  { icon: HelpCircle,      label: 'Suporte',       href: '/dashboard/support' },
-  { icon: Settings,        label: 'Configurações', href: '/dashboard/settings' },
-];
-
-export function Sidebar() {
+export default function Sidebar() {
   const pathname = usePathname();
-  const { sidebarCollapsed, toggleSidebar } = useUIStore();
-  const { profile, logout, isAdmin } = useAuth();
+
+  const menuItems = [
+    {
+      label: 'Dashboard',
+      href: '/',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+        </svg>
+      )
+    },
+    {
+      label: 'Projetos',
+      href: '/projects',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+      )
+    },
+    {
+      label: 'Habilidades',
+      href: '/skills',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      )
+    },
+    {
+      label: 'Histórico',
+      href: '/history',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      )
+    },
+    {
+      label: 'Downloads',
+      href: '/downloads',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      )
+    }
+  ];
+
+  const secondaryItems = [
+    {
+      label: 'Licença',
+      href: '/license',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+        </svg>
+      )
+    },
+    {
+      label: 'Cobrança',
+      href: '/billing',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+      )
+    },
+    {
+      label: 'Suporte',
+      href: '/support',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+      )
+    },
+    {
+      label: 'Configurações',
+      href: '/settings',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      )
+    }
+  ];
 
   return (
-    <aside
-      className={cn(
-        'fixed left-0 top-0 bottom-0 bg-[#0D0D0D] border-r border-white/[0.07] transition-all duration-300 z-40 flex flex-col',
-        sidebarCollapsed ? 'w-[68px]' : 'w-60'
-      )}
-    >
+    <aside className="hidden lg:flex flex-col w-64 h-screen border-r border-border-subtle bg-bg-surface sticky top-0">
       {/* Logo */}
-      <div className={cn(
-        'h-16 flex items-center border-b border-white/[0.07] flex-shrink-0',
-        sidebarCollapsed ? 'justify-center px-0' : 'px-5'
-      )}>
-        {sidebarCollapsed ? <Logo variant="icon" size="sm" /> : <Logo size="sm" />}
+      <div className="h-20 flex items-center px-6 border-b border-border-subtle">
+        <Logo size="md" />
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto py-4 px-2.5 space-y-0.5">
-        {navItems.map((item) => {
-          const active = pathname === item.href || (item.href !== '/dashboard' && pathname.startsWith(item.href + '/'));
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              title={sidebarCollapsed ? item.label : undefined}
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-150 group text-sm font-medium',
-                active
-                  ? 'bg-[#F5C842]/10 text-[#F5C842]'
-                  : 'text-[#606060] hover:text-[#F2F2F2] hover:bg-white/[0.04]',
-                sidebarCollapsed && 'justify-center px-2'
-              )}
-            >
-              <item.icon className="w-4.5 h-4.5 flex-shrink-0 w-[18px] h-[18px]" />
-              {!sidebarCollapsed && (
-                <>
-                  <span className="flex-1">{item.label}</span>
-                  {active && <span className="w-1.5 h-1.5 rounded-full bg-[#F5C842] flex-shrink-0" />}
-                </>
-              )}
-            </Link>
-          );
-        })}
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto py-6 px-4">
+        {/* Main Menu */}
+        <div className="mb-8">
+          <div className="px-3 mb-2">
+            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
+              Principal
+            </p>
+          </div>
+          <div className="space-y-1">
+            {menuItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-cyan-dim text-cyan border border-cyan-border'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
+                  }`}
+                >
+                  <span className={isActive ? 'text-cyan' : ''}>
+                    {item.icon}
+                  </span>
+                  <span className="font-medium text-sm">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
 
-        {/* Admin */}
-        {isAdmin && isAdmin() && (
-          <>
-            <div className="my-3 border-t border-white/[0.06]" />
-            <Link
-              href="/admin"
-              title={sidebarCollapsed ? 'Admin' : undefined}
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all text-sm font-medium',
-                pathname.startsWith('/admin')
-                  ? 'bg-purple-500/10 text-purple-400'
-                  : 'text-[#606060] hover:text-[#F2F2F2] hover:bg-white/[0.04]',
-                sidebarCollapsed && 'justify-center px-2'
-              )}
-            >
-              <Shield className="w-[18px] h-[18px] flex-shrink-0" />
-              {!sidebarCollapsed && <span>Admin</span>}
-            </Link>
-          </>
-        )}
+        {/* Secondary Menu */}
+        <div>
+          <div className="px-3 mb-2">
+            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider">
+              Conta
+            </p>
+          </div>
+          <div className="space-y-1">
+            {secondaryItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-cyan-dim text-cyan border border-cyan-border'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-white/5'
+                  }`}
+                >
+                  <span className={isActive ? 'text-cyan' : ''}>
+                    {item.icon}
+                  </span>
+                  <span className="font-medium text-sm">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
       </nav>
 
-      {/* User */}
-      <div className="p-2.5 border-t border-white/[0.07] flex-shrink-0">
-        {!sidebarCollapsed ? (
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/[0.04] transition-colors group">
-            <div className="w-8 h-8 rounded-lg bg-[#F5C842]/15 text-[#F5C842] flex items-center justify-center flex-shrink-0 text-sm font-bold">
-              {profile?.name?.charAt(0).toUpperCase() || 'U'}
+      {/* Upgrade Card */}
+      <div className="p-4 border-t border-border-subtle">
+        <div className="p-4 rounded-xl glass border border-cyan-border bg-cyan-dim">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-10 rounded-lg bg-gradient-cyan flex items-center justify-center text-bg-base">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-[#F2F2F2] truncate">{profile?.name || 'Usuário'}</p>
-              <p className="text-xs text-[#606060] truncate">{profile?.email}</p>
+            <div>
+              <p className="text-sm font-semibold text-text-primary">
+                Upgrade para Pro
+              </p>
+              <p className="text-xs text-text-tertiary">
+                Desbloque todos os recursos
+              </p>
             </div>
-            <button
-              onClick={logout}
-              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-lg hover:text-red-400 text-[#606060]"
-              title="Sair"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
           </div>
-        ) : (
-          <button
-            onClick={logout}
-            title="Sair"
-            className="w-full flex items-center justify-center p-2.5 rounded-xl text-[#606060] hover:text-red-400 hover:bg-white/[0.04] transition-colors"
+          <Link
+            href="/billing"
+            className="block w-full px-4 py-2 rounded-lg bg-gradient-cyan text-bg-base text-sm font-semibold text-center hover:scale-105 transition-transform duration-200"
           >
-            <LogOut className="w-[18px] h-[18px]" />
-          </button>
-        )}
+            Fazer Upgrade
+          </Link>
+        </div>
       </div>
-
-      {/* Collapse toggle */}
-      <button
-        onClick={toggleSidebar}
-        className="absolute -right-3 top-[72px] w-6 h-6 flex items-center justify-center rounded-full bg-[#191919] border border-white/[0.1] text-[#606060] hover:text-[#F2F2F2] hover:border-white/[0.2] transition-all z-50"
-      >
-        <ChevronLeft className={cn('w-3.5 h-3.5 transition-transform', sidebarCollapsed && 'rotate-180')} />
-      </button>
     </aside>
   );
 }

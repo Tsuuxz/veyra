@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Logo } from '@/components/brand/Logo';
+import Logo from '@/components/brand/Logo';
 import { CheckCircle2 } from 'lucide-react';
 
 const perks = [

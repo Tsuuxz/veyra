@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { Sidebar } from '@/components/dashboard/Sidebar';
-import { Topbar } from '@/components/dashboard/Topbar';
-import { MobileSidebar } from '@/components/dashboard/MobileSidebar';
+import Sidebar from '@/components/dashboard/Sidebar';
+import Topbar from '@/components/dashboard/Topbar';
+import MobileSidebar from '@/components/dashboard/MobileSidebar';
 import { AuthGuard } from '@/components/auth/AuthGuard';
 import { Menu, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useUIStore } from '@/lib/stores/uiStore';
-import { Logo } from '@/components/brand/Logo';
+import Logo from '@/components/brand/Logo';
 import { useAuth } from '@/hooks/useAuth';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

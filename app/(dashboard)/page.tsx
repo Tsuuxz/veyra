@@ -2,141 +2,300 @@
 
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
-import { Download, Key, Monitor, FolderKanban, ArrowRight, Clock, TrendingUp, Zap, CheckCircle2 } from 'lucide-react';
-
-const quickActions = [
-  { icon: Download,     label: 'Download VEYRA',  desc: 'Baixar versão mais recente', href: '/dashboard/downloads', color: 'text-blue-400',   bg: 'bg-blue-500/10' },
-  { icon: Key,          label: 'Ver Licença',     desc: 'Gerenciar dispositivos',      href: '/dashboard/license',   color: 'text-[#F5C842]', bg: 'bg-[#F5C842]/10' },
-  { icon: FolderKanban, label: 'Novo Projeto',    desc: 'Criar projeto',               href: '/dashboard/projects',  color: 'text-purple-400', bg: 'bg-purple-500/10' },
-  { icon: Zap,          label: 'Skills',          desc: 'Biblioteca de prompts',       href: '/dashboard/skills',    color: 'text-green-400',  bg: 'bg-green-500/10' },
-];
-
-const activity = [
-  { icon: Key,          label: 'Licença ativada',        time: 'Há 2 horas',  dot: 'bg-[#F5C842]' },
-  { icon: Download,     label: 'VEYRA v2.1.0 baixado',   time: 'Há 1 dia',   dot: 'bg-blue-400' },
-  { icon: FolderKanban, label: 'Projeto criado',          time: 'Há 2 dias',  dot: 'bg-purple-400' },
-  { icon: CheckCircle2, label: 'Pagamento confirmado',    time: 'Há 5 dias',  dot: 'bg-green-400' },
-];
 
 export default function DashboardPage() {
   const { profile } = useAuth();
   const firstName = profile?.name?.split(' ')[0] || 'Usuário';
 
+  const stats = [
+    { 
+      label: 'Plano Atual', 
+      value: 'VEYRA Pro', 
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+        </svg>
+      ),
+      color: 'text-cyan',
+      bg: 'bg-cyan-dim'
+    },
+    { 
+      label: 'Licença', 
+      value: 'Ativa', 
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      color: 'text-success',
+      bg: 'bg-success/10'
+    },
+    { 
+      label: 'Dispositivos', 
+      value: '1 / 3', 
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
+      color: 'text-info',
+      bg: 'bg-info/10'
+    },
+    { 
+      label: 'Projetos', 
+      value: '12', 
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+      ),
+      color: 'text-warning',
+      bg: 'bg-warning/10'
+    }
+  ];
+
+  const quickActions = [
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      ),
+      label: 'Download VEYRA',
+      desc: 'Baixar versão mais recente',
+      href: '/downloads',
+      color: 'text-info',
+      bg: 'bg-info/10'
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+        </svg>
+      ),
+      label: 'Ver Licença',
+      desc: 'Gerenciar dispositivos',
+      href: '/license',
+      color: 'text-cyan',
+      bg: 'bg-cyan-dim'
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+      ),
+      label: 'Novo Projeto',
+      desc: 'Criar projeto',
+      href: '/projects',
+      color: 'text-warning',
+      bg: 'bg-warning/10'
+    },
+    {
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+      label: 'Skills',
+      desc: 'Biblioteca de prompts',
+      href: '/skills',
+      color: 'text-success',
+      bg: 'bg-success/10'
+    }
+  ];
+
+  const activity = [
+    {
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+        </svg>
+      ),
+      label: 'Licença ativada',
+      time: 'Há 2 horas',
+      dot: 'bg-cyan'
+    },
+    {
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
+      ),
+      label: 'VEYRA v2.1.0 baixado',
+      time: 'Há 1 dia',
+      dot: 'bg-info'
+    },
+    {
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+      ),
+      label: 'Projeto criado',
+      time: 'Há 2 dias',
+      dot: 'bg-warning'
+    },
+    {
+      icon: (
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      label: 'Pagamento confirmado',
+      time: 'Há 5 dias',
+      dot: 'bg-success'
+    }
+  ];
+
   return (
     <div className="space-y-8 animate-fade-in">
-
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
-          <h2 className="text-2xl font-bold text-[#F2F2F2] mb-1">
+          <h2 className="text-3xl font-bold text-text-primary mb-2">
             Olá, {firstName} 👋
           </h2>
-          <p className="text-sm text-[#606060]">Bem-vindo ao seu painel VEYRA</p>
+          <p className="text-text-secondary">
+            Bem-vindo ao seu painel VEYRA
+          </p>
         </div>
         <Link
-          href="/dashboard/downloads"
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F5C842] text-[#0A0A0A] text-sm font-bold hover:bg-[#F7D46A] transition-colors"
+          href="/downloads"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-cyan text-bg-base text-sm font-semibold shadow-lg shadow-cyan/20 hover:shadow-xl hover:shadow-cyan/30 hover:scale-105 transition-all duration-200"
         >
-          <Download className="w-4 h-4" />
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
           Download VEYRA
         </Link>
       </div>
 
-      {/* Stats row */}
+      {/* Stats Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: 'Plano Atual',        value: 'VEYRA Pro',  icon: TrendingUp,   color: 'text-[#F5C842]', bg: 'bg-[#F5C842]/10' },
-          { label: 'Licença',            value: 'Ativa',      icon: CheckCircle2, color: 'text-green-400', bg: 'bg-green-500/10' },
-          { label: 'Dispositivos',       value: '1 / 3',      icon: Monitor,      color: 'text-blue-400',  bg: 'bg-blue-500/10' },
-          { label: 'Projetos',           value: '12',         icon: FolderKanban, color: 'text-purple-400',bg: 'bg-purple-500/10' },
-        ].map((stat) => (
-          <div key={stat.label} className="p-5 rounded-2xl bg-[#111111] border border-white/[0.07] hover:border-white/[0.12] transition-colors">
-            <div className={`w-10 h-10 flex items-center justify-center rounded-xl mb-3 ${stat.bg} ${stat.color}`}>
-              <stat.icon className="w-5 h-5" />
+        {stats.map((stat, index) => (
+          <div
+            key={index}
+            className="p-6 rounded-2xl glass border border-border-subtle hover:border-cyan-border transition-all duration-300 group"
+          >
+            <div className={`w-12 h-12 flex items-center justify-center rounded-xl mb-4 ${stat.bg} ${stat.color} border border-current/20 group-hover:scale-110 transition-transform duration-300`}>
+              {stat.icon}
             </div>
-            <p className="text-xs text-[#606060] mb-1">{stat.label}</p>
-            <p className="text-xl font-bold text-[#F2F2F2]">{stat.value}</p>
+            <p className="text-sm text-text-tertiary mb-1">
+              {stat.label}
+            </p>
+            <p className="text-2xl font-bold text-text-primary">
+              {stat.value}
+            </p>
           </div>
         ))}
       </div>
 
-      {/* VEYRA status card */}
-      <div className="p-6 rounded-2xl bg-[#111111] border border-[#F5C842]/15 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#F5C842]/[0.04] rounded-full blur-3xl pointer-events-none" />
+      {/* VEYRA Status Card */}
+      <div className="p-6 lg:p-8 rounded-3xl glass-strong border border-cyan-border relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-cyan opacity-10 blur-3xl pointer-events-none" />
+        
         <div className="relative z-10">
           <div className="flex items-start justify-between gap-4 mb-6">
             <div>
-              <h3 className="text-lg font-bold text-[#F2F2F2] mb-1">Sua Extensão VEYRA</h3>
-              <p className="text-sm text-[#606060]">Instalada e funcionando perfeitamente</p>
+              <h3 className="text-xl font-bold text-text-primary mb-2">
+                Sua Extensão VEYRA
+              </h3>
+              <p className="text-text-secondary">
+                Instalada e funcionando perfeitamente
+              </p>
             </div>
-            <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            <span className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/20 text-success text-sm font-semibold">
+              <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
               Ativo
             </span>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             {[
-              { label: 'Status',    value: 'Ativa' },
-              { label: 'Versão',    value: 'v2.1.0' },
-              { label: 'Devices',   value: '1 / 3' },
-              { label: 'Última sync', value: 'Agora' },
-            ].map((item) => (
-              <div key={item.label} className="p-3.5 rounded-xl bg-[#0A0A0A] border border-white/[0.06]">
-                <p className="text-xs text-[#606060] mb-1">{item.label}</p>
-                <p className="text-sm font-semibold text-[#F2F2F2]">{item.value}</p>
+              { label: 'Status', value: 'Ativa' },
+              { label: 'Versão', value: 'v2.1.0' },
+              { label: 'Devices', value: '1 / 3' },
+              { label: 'Última sync', value: 'Agora' }
+            ].map((item, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-xl bg-bg-base border border-border-subtle"
+              >
+                <p className="text-xs text-text-tertiary mb-1">
+                  {item.label}
+                </p>
+                <p className="text-sm font-semibold text-text-primary">
+                  {item.value}
+                </p>
               </div>
             ))}
           </div>
 
           <Link
-            href="/dashboard/downloads"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#F5C842] text-[#0A0A0A] text-sm font-bold hover:bg-[#F7D46A] transition-colors"
+            href="/downloads"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-cyan text-bg-base text-sm font-semibold shadow-lg shadow-cyan/20 hover:shadow-xl hover:shadow-cyan/30 hover:scale-105 transition-all duration-200"
           >
             Baixar versão mais recente
-            <ArrowRight className="w-4 h-4" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
           </Link>
         </div>
       </div>
 
-      {/* Bottom grid */}
+      {/* Bottom Grid */}
       <div className="grid lg:grid-cols-2 gap-6">
-        {/* Quick actions */}
-        <div className="p-6 rounded-2xl bg-[#111111] border border-white/[0.07]">
-          <h3 className="text-sm font-semibold text-[#F2F2F2] mb-5">Ações rápidas</h3>
+        {/* Quick Actions */}
+        <div className="p-6 rounded-2xl glass border border-border-subtle">
+          <h3 className="text-lg font-semibold text-text-primary mb-5">
+            Ações rápidas
+          </h3>
           <div className="space-y-2">
-            {quickActions.map((action) => (
+            {quickActions.map((action, idx) => (
               <Link
-                key={action.label}
+                key={idx}
                 href={action.href}
-                className="flex items-center gap-3.5 p-3.5 rounded-xl hover:bg-white/[0.03] border border-transparent hover:border-white/[0.07] transition-all group"
+                className="flex items-center gap-4 p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-cyan-border transition-all duration-200 group"
               >
-                <div className={`w-9 h-9 flex items-center justify-center rounded-lg flex-shrink-0 ${action.bg} ${action.color}`}>
-                  <action.icon className="w-4.5 h-4.5 w-[18px] h-[18px]" />
+                <div className={`w-10 h-10 flex items-center justify-center rounded-lg flex-shrink-0 ${action.bg} ${action.color} border border-current/20 group-hover:scale-110 transition-transform duration-200`}>
+                  {action.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-[#F2F2F2]">{action.label}</p>
-                  <p className="text-xs text-[#606060]">{action.desc}</p>
+                  <p className="text-sm font-medium text-text-primary">
+                    {action.label}
+                  </p>
+                  <p className="text-xs text-text-tertiary">
+                    {action.desc}
+                  </p>
                 </div>
-                <ArrowRight className="w-4 h-4 text-[#606060] group-hover:text-[#A0A0A0] transition-colors flex-shrink-0" />
+                <svg className="w-5 h-5 text-text-tertiary group-hover:text-cyan transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
               </Link>
             ))}
           </div>
         </div>
 
-        {/* Recent activity */}
-        <div className="p-6 rounded-2xl bg-[#111111] border border-white/[0.07]">
-          <h3 className="text-sm font-semibold text-[#F2F2F2] mb-5">Atividade recente</h3>
+        {/* Recent Activity */}
+        <div className="p-6 rounded-2xl glass border border-border-subtle">
+          <h3 className="text-lg font-semibold text-text-primary mb-5">
+            Atividade recente
+          </h3>
           <div className="space-y-4">
-            {activity.map((item, i) => (
-              <div key={i} className="flex items-center gap-3.5">
-                <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#191919] border border-white/[0.06] text-[#606060] flex-shrink-0">
-                  <item.icon className="w-4 h-4" />
+            {activity.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-4">
+                <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-bg-elevated border border-border-subtle text-text-tertiary flex-shrink-0">
+                  {item.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-[#F2F2F2]">{item.label}</p>
-                  <p className="text-xs text-[#606060] flex items-center gap-1.5 mt-0.5">
-                    <Clock className="w-3 h-3" />
+                  <p className="text-sm text-text-primary">
+                    {item.label}
+                  </p>
+                  <p className="text-xs text-text-tertiary flex items-center gap-1.5 mt-1">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
                     {item.time}
                   </p>
                 </div>
@@ -146,7 +305,6 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

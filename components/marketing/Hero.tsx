@@ -1,137 +1,156 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, Zap, MonitorSmartphone, RefreshCw, Headphones, ShieldCheck } from 'lucide-react';
+import Button from '@/components/ui/Button';
+import { useState, useEffect } from 'react';
 
-const badges = [
-  { icon: Zap, label: 'Instalação em 60s' },
-  { icon: MonitorSmartphone, label: 'Todos Chromium' },
-  { icon: RefreshCw, label: 'Auto-update' },
-  { icon: Headphones, label: 'Suporte humano' },
-  { icon: ShieldCheck, label: '7 dias de garantia' },
-];
+export default function Hero() {
+  const [isVisible, setIsVisible] = useState(false);
 
-const stats = [
-  { value: '60s', label: 'Setup' },
-  { value: '0', label: 'Créditos extras' },
-  { value: '12+', label: 'Ferramentas' },
-  { value: '100%', label: 'Satisfação' },
-];
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
-export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* BG glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[#F5C842]/[0.04] rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#F5C842]/[0.03] rounded-full blur-3xl pointer-events-none" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      {/* Background Gradient Orbs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+          className="absolute top-1/4 -right-1/4 w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-pulse"
+          style={{
+            background: 'radial-gradient(circle, rgba(20, 222, 218, 0.4) 0%, transparent 70%)',
+            animationDuration: '8s'
+          }}
+        />
+        <div
+          className="absolute bottom-1/4 -left-1/4 w-[500px] h-[500px] rounded-full opacity-15 blur-3xl animate-pulse"
+          style={{
+            background: 'radial-gradient(circle, rgba(85, 243, 236, 0.3) 0%, transparent 70%)',
+            animationDuration: '10s'
+          }}
+        />
+      </div>
 
-      <div className="container mx-auto relative z-10 py-16">
-        <div className="max-w-4xl mx-auto text-center animate-slide-up">
-
-          {/* Pill badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#F5C842]/30 bg-[#F5C842]/[0.08] text-[#F5C842] text-sm font-medium mb-8">
-            <span className="w-2 h-2 rounded-full bg-[#F5C842] animate-pulse" />
-            VEYRA • Extensão para Lovable
+      <div className="container relative z-10">
+        <div className="max-w-5xl mx-auto">
+          {/* Badge */}
+          <div
+            className={`flex justify-center mb-8 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+            }`}
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-cyan-border bg-cyan-dim">
+              <div className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
+              <span className="text-sm font-medium text-text-primary">
+                Automatização Inteligente com IA
+              </span>
+            </div>
           </div>
 
-          {/* Headline */}
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#F2F2F2] leading-[1.08] tracking-tight mb-6">
-            Construa no Lovable
-            <br />
-            <span className="text-gradient">em modo turbo</span>
+          {/* Main Heading */}
+          <h1
+            className={`text-center mb-6 transition-all duration-700 delay-100 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+            }`}
+          >
+            <span className="block text-text-primary text-balance">
+              Automatize Tarefas com
+            </span>
+            <span className="block text-gradient font-extrabold">
+              Inteligência Artificial
+            </span>
           </h1>
 
-          <p className="text-xl text-[#A0A0A0] max-w-2xl mx-auto mb-10 leading-relaxed">
-            Prompts ilimitados, rewrite cirúrgico, ações rápidas e controle total —
-            sem queimar nenhum crédito. Por R$ 5,99 o teste.
+          {/* Description */}
+          <p
+            className={`text-xl text-text-secondary text-center max-w-3xl mx-auto mb-12 text-balance transition-all duration-700 delay-200 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+            }`}
+          >
+            VEYRA é a extensão de IA que revoluciona seu fluxo de trabalho no navegador. 
+            Automatize tarefas repetitivas, extraia dados e aumente sua produtividade em até 10x.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-14">
-            <Link
-              href="/register"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#F5C842] text-[#0A0A0A] font-bold text-lg hover:bg-[#F7D46A] transition-all hover:scale-[1.02] active:scale-[0.98]"
-            >
-              Começar agora
-              <ArrowRight className="w-5 h-5" />
+          {/* CTA Buttons */}
+          <div
+            className={`flex flex-wrap items-center justify-center gap-4 mb-16 transition-all duration-700 delay-300 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+            }`}
+          >
+            <Link href="/register">
+              <Button 
+                variant="primary" 
+                size="lg"
+                className="shadow-xl shadow-cyan/30 hover:shadow-2xl hover:shadow-cyan/40 transition-all duration-300"
+              >
+                Começar Gratuitamente
+                <svg
+                  className="w-5 h-5 ml-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Button>
             </Link>
-            <a
-              href="#how-it-works"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-white/[0.1] text-[#A0A0A0] font-medium text-lg hover:border-white/[0.2] hover:text-[#F2F2F2] transition-all"
-            >
-              Ver como funciona
-            </a>
+            <Link href="/docs">
+              <Button variant="outline" size="lg">
+                Ver Documentação
+              </Button>
+            </Link>
           </div>
 
-          {/* Stats row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.06] rounded-2xl overflow-hidden border border-white/[0.06] mb-14">
-            {stats.map((s) => (
-              <div key={s.label} className="bg-[#0A0A0A] py-6 px-4 text-center">
-                <p className="text-3xl font-bold text-[#F5C842] mb-1">{s.value}</p>
-                <p className="text-sm text-[#606060]">{s.label}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap justify-center gap-6">
-            {badges.map((b) => (
-              <div key={b.label} className="flex items-center gap-2 text-sm text-[#606060]">
-                <b.icon className="w-4 h-4 text-[#F5C842]" />
-                {b.label}
+          {/* Stats Grid */}
+          <div
+            className={`grid grid-cols-3 gap-4 md:gap-8 max-w-3xl mx-auto transition-all duration-700 delay-500 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            {[
+              { value: '50K+', label: 'Usuários Ativos' },
+              { value: '1M+', label: 'Tarefas Automatizadas' },
+              { value: '99.9%', label: 'Uptime' }
+            ].map((stat, index) => (
+              <div
+                key={index}
+                className="text-center p-6 rounded-2xl glass border border-border-subtle hover:border-cyan-border transition-all duration-300 group"
+              >
+                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2 group-hover:scale-110 transition-transform duration-300">
+                  {stat.value}
+                </div>
+                <div className="text-sm text-text-tertiary">
+                  {stat.label}
+                </div>
               </div>
             ))}
           </div>
         </div>
+      </div>
 
-        {/* UI preview card */}
-        <div className="mt-20 max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '300ms' }}>
-          <div className="relative rounded-2xl border border-white/[0.08] bg-[#111111] p-1 shadow-2xl glow-brand">
-            {/* Titlebar */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06]">
-              <span className="w-3 h-3 rounded-full bg-red-500/70" />
-              <span className="w-3 h-3 rounded-full bg-yellow-500/70" />
-              <span className="w-3 h-3 rounded-full bg-green-500/70" />
-              <span className="ml-3 text-xs text-[#606060] font-mono">VEYRA Extension — Lovable</span>
-              <span className="ml-auto flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Ativo
-              </span>
-            </div>
+      {/* Decorative Grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(20, 222, 218, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(20, 222, 218, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}
+        />
+      </div>
 
-            <div className="p-6 grid md:grid-cols-2 gap-4">
-              {/* Left: info */}
-              <div className="space-y-4">
-                <div className="p-4 rounded-xl bg-[#191919] border border-white/[0.06]">
-                  <p className="text-xs text-[#606060] mb-1">Plano atual</p>
-                  <p className="font-semibold text-[#F5C842]">VEYRA Pro</p>
-                </div>
-                <div className="p-4 rounded-xl bg-[#191919] border border-white/[0.06]">
-                  <p className="text-xs text-[#606060] mb-1">Licença</p>
-                  <p className="font-semibold text-[#F2F2F2]">Ativa • 2 dispositivos</p>
-                </div>
-                <div className="p-4 rounded-xl bg-[#191919] border border-white/[0.06]">
-                  <p className="text-xs text-[#606060] mb-1">Versão</p>
-                  <p className="font-semibold text-[#F2F2F2]">v2.1.0 — Atualizado</p>
-                </div>
-              </div>
-
-              {/* Right: quick actions */}
-              <div className="p-4 rounded-xl bg-[#191919] border border-white/[0.06]">
-                <p className="text-xs font-semibold text-[#606060] mb-3 uppercase tracking-wider">Ações rápidas</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {['Optimize', 'Rewrite', 'Download', 'New Project', 'History', 'Attach'].map((a) => (
-                    <button
-                      key={a}
-                      className="py-2.5 px-3 rounded-lg bg-[#222222] border border-white/[0.06] text-xs font-medium text-[#A0A0A0] hover:border-[#F5C842]/30 hover:text-[#F2F2F2] transition-all"
-                    >
-                      {a}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* Scroll Indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-6 h-10 rounded-full border-2 border-cyan-border flex items-start justify-center p-2">
+          <div className="w-1 h-2 rounded-full bg-cyan animate-pulse" />
         </div>
       </div>
     </section>

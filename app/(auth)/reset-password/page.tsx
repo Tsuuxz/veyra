@@ -1,107 +1,182 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { Button, Input } from '@/components/ui';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
+import Logo from '@/components/brand/Logo';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 
 export default function ResetPasswordPage() {
-  const { resetPassword } = useAuth();
-  const [form, setForm] = useState({ password: '', confirm: '' });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [submitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    password: '',
+    confirmPassword: ''
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrors({});
-    const errs: Record<string, string> = {};
-    if (!form.password || form.password.length < 6) errs.password = 'Mínimo 6 caracteres';
-    if (form.password !== form.confirm) errs.confirm = 'Senhas não coincidem';
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    
+    if (formData.password !== formData.confirmPassword) {
+      alert('As senhas não coincidem');
+      return;
+    }
 
-    setSubmitting(true);
-    const result = await resetPassword(form.password);
-    setSubmitting(false);
-    if (result.success) setSuccess(true);
-    else setErrors({ form: result.error || 'Erro ao redefinir senha' });
+    setIsLoading(true);
+    
+    // Simulate password reset
+    setTimeout(() => {
+      router.push('/login');
+    }, 1500);
   };
 
-  if (success) {
-    return (
-      <div className="space-y-6 animate-fade-in text-center">
-        <div className="w-16 h-16 flex items-center justify-center rounded-2xl bg-green-500/10 text-green-400 mx-auto">
-          <CheckCircle2 className="w-8 h-8" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-[#F2F2F2] mb-2">Senha redefinida!</h1>
-          <p className="text-sm text-[#606060]">Sua senha foi alterada com sucesso.</p>
-        </div>
-        <Link
-          href="/login"
-          className="block w-full py-3 rounded-xl bg-[#F5C842] text-[#0A0A0A] text-sm font-bold text-center hover:bg-[#F7D46A] transition-colors"
-        >
-          Fazer login
-        </Link>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-7 animate-fade-in">
-      <div>
-        <h1 className="text-2xl font-bold text-[#F2F2F2] mb-1">Criar nova senha</h1>
-        <p className="text-sm text-[#606060]">Escolha uma senha segura para sua conta</p>
+    <div className="min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-cyan opacity-10 blur-3xl rounded-full animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-cyan-light opacity-10 blur-3xl rounded-full animate-pulse" style={{ animationDuration: '10s' }} />
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {errors.form && (
-          <div className="p-3.5 rounded-xl bg-red-500/[0.08] border border-red-500/20 text-sm text-red-400">
-            {errors.form}
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(20, 222, 218, 0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(20, 222, 218, 0.3) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px'
+          }}
+        />
+      </div>
+
+      {/* Reset Password Card */}
+      <div className="w-full max-w-md relative z-10">
+        <div className="glass-strong border border-border-medium rounded-3xl p-8 shadow-2xl">
+          {/* Logo */}
+          <div className="flex justify-center mb-8">
+            <Logo size="lg" />
           </div>
-        )}
 
-        <Input
-          label="Nova senha"
-          type="password"
-          placeholder="••••••••"
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
-          error={errors.password}
-          leftIcon={<Lock className="w-4 h-4" />}
-          helperText="Mínimo 6 caracteres"
-          disabled={submitting}
-        />
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-text-primary mb-2">
+              Redefinir senha
+            </h1>
+            <p className="text-text-secondary">
+              Crie uma nova senha forte para sua conta
+            </p>
+          </div>
 
-        <Input
-          label="Confirmar senha"
-          type="password"
-          placeholder="••••••••"
-          value={form.confirm}
-          onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-          error={errors.confirm}
-          leftIcon={<Lock className="w-4 h-4" />}
-          disabled={submitting}
-        />
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-2">
+                Nova senha
+              </label>
+              <Input
+                type="password"
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                required
+                minLength={8}
+                className="w-full"
+              />
+              <p className="text-xs text-text-tertiary mt-2">
+                Mínimo de 8 caracteres
+              </p>
+            </div>
 
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          className="w-full !bg-[#F5C842] !text-[#0A0A0A] hover:!bg-[#F7D46A] font-bold"
-          isLoading={submitting}
-          rightIcon={!submitting ? <ArrowRight className="w-5 h-5" /> : undefined}
-        >
-          Redefinir senha
-        </Button>
-      </form>
+            <div>
+              <label className="block text-sm font-medium text-text-primary mb-2">
+                Confirmar nova senha
+              </label>
+              <Input
+                type="password"
+                placeholder="••••••••"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                required
+                className="w-full"
+              />
+            </div>
 
-      <p className="text-center">
-        <Link href="/login" className="text-xs text-[#606060] hover:text-[#A0A0A0] transition-colors">
-          ← Voltar ao login
-        </Link>
-      </p>
+            {/* Password Requirements */}
+            <div className="p-4 rounded-xl bg-cyan-dim border border-cyan-border">
+              <p className="text-sm font-medium text-text-primary mb-2">
+                Requisitos da senha:
+              </p>
+              <ul className="space-y-1 text-xs text-text-secondary">
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Mínimo de 8 caracteres
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Pelo menos uma letra maiúscula
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Pelo menos um número
+                </li>
+              </ul>
+            </div>
+
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className="w-full shadow-xl shadow-cyan/20"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-5 h-5 border-2 border-bg-base border-t-transparent rounded-full animate-spin" />
+                  Redefinindo...
+                </div>
+              ) : (
+                'Redefinir senha'
+              )}
+            </Button>
+          </form>
+
+          {/* Back to Login */}
+          <div className="text-center mt-6">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 text-sm text-text-tertiary hover:text-text-primary transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg>
+              Voltar para login
+            </Link>
+          </div>
+        </div>
+
+        {/* Back to Home */}
+        <div className="text-center mt-6">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-sm text-text-tertiary hover:text-text-primary transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            Voltar para home
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

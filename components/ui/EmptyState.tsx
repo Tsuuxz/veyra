@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Button } from './Button';
+import Button from './Button';
 
 interface EmptyStateProps {
   icon: React.ReactNode;
